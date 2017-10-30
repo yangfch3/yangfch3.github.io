@@ -102,7 +102,7 @@
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/95pdeafw683dqhtwj8ymhnpp/image_1b1cbv67c17de1kdb16rce9mtk2a.png">
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/jwinkxrha3w4bkgq59kgr89f/image_1b1ciceslctp1ho2ib1rvf1evj2n.png">
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/0achbqbncuy3hdfar6l5thm7/image_1b1cj198v4itmue1ishdsecbj34.png">
-<meta property="og:updated_time" content="2017-10-19T03:03:41.717Z">
+<meta property="og:updated_time" content="2017-10-30T07:12:48.172Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Web 缓存及策略制定">
 <meta name="twitter:description" content="我们常常会注意到静态资源后面都跟着一串指纹码：     同时我们在进行网络请求分析时会遇到 Cache-Control、Last-Modified 等这些 Header 字段。 在冥冥中，我们知道这些肯定与缓存有着重大的关系。缓存机制中有哪些关键的东西在起作用，如何制定最优的 缓存-更新 机制就是本文需要研究的问题。">
@@ -465,6 +465,15 @@ If-Modified-Since 是 Request Header 的字段</p>
 <h3 id="public-private">public &amp; private</h3>
 <p>服务器返回的 Cache-Control Header 如果有 public 字段，则表示可以多级缓存（用户代理、CDN、服务提供商）。</p>
 <p>private 则表示单用户缓存，不允许任何中继缓存对其进行缓存 - 例如，用户浏览器可以缓存包含用户私人信息的 HTML 网页，但是中间服务商不能缓存。</p>
+<h2 id="实例：express-req-fresh-的判定机制">实例：Express req.fresh 的判定机制</h2>
+<p>Express 中 req.fresh 用于判定客户端的请求是否是“新鲜”的请求（而不是对已缓存资源的请求），只有当请求头的 <code>cache-control</code> 不等于 <code>no-cache</code> 并且满足以下任意一条才表示客户端的请求是“新鲜”的（即服务器需要提供新资源）：</p>
+<blockquote>
+<ul>
+<li>指定了 <code>if-modified-since</code> 请求头并且 <code>last-modified</code> 请求头等于或时间上早于 <code>modified</code> 响应头</li>
+<li><code>if-none-match</code> 请求头是 <code>*</code></li>
+<li><code>if-none-match</code> 请求头无法匹配响应头的 <code>etag</code></li>
+</ul>
+</blockquote>
 <h2 id="http-caching-最佳实践">HTTP Caching 最佳实践</h2>
 <p><img src="http://static.zybuluo.com/yangfch3/jwinkxrha3w4bkgq59kgr89f/image_1b1ciceslctp1ho2ib1rvf1evj2n.png" alt="image_1b1ciceslctp1ho2ib1rvf1evj2n.png-47.8kB"></p>
 <h2 id="缓存与频繁更新的矛盾">缓存与频繁更新的矛盾</h2>
@@ -728,7 +737,7 @@ If-Modified-Since 是 Request Header 的字段</p>
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#etag-if-none-match"><span class="nav-number">2.</span> <span class="nav-text">ETag & If-None-Match</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#last-modified-if-modified-since"><span class="nav-number">3.</span> <span class="nav-text">Last-Modified & If-Modified-Since</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cache-control"><span class="nav-number">4.</span> <span class="nav-text">Cache-Control</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#max-age-num"><span class="nav-number">4.1.</span> <span class="nav-text">max-age=[num]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#no-cache"><span class="nav-number">4.2.</span> <span class="nav-text">no-cache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#no-store"><span class="nav-number">4.3.</span> <span class="nav-text">no-store</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#public-private"><span class="nav-number">4.4.</span> <span class="nav-text">public & private</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http-caching-最佳实践"><span class="nav-number">5.</span> <span class="nav-text">HTTP Caching 最佳实践</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存与频繁更新的矛盾"><span class="nav-number">6.</span> <span class="nav-text">缓存与频繁更新的矛盾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意点"><span class="nav-number">7.</span> <span class="nav-text">注意点</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#etag-if-none-match"><span class="nav-number">2.</span> <span class="nav-text">ETag & If-None-Match</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#last-modified-if-modified-since"><span class="nav-number">3.</span> <span class="nav-text">Last-Modified & If-Modified-Since</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cache-control"><span class="nav-number">4.</span> <span class="nav-text">Cache-Control</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#max-age-num"><span class="nav-number">4.1.</span> <span class="nav-text">max-age=[num]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#no-cache"><span class="nav-number">4.2.</span> <span class="nav-text">no-cache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#no-store"><span class="nav-number">4.3.</span> <span class="nav-text">no-store</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#public-private"><span class="nav-number">4.4.</span> <span class="nav-text">public & private</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例：express-req-fresh-的判定机制"><span class="nav-number">5.</span> <span class="nav-text">实例：Express req.fresh 的判定机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http-caching-最佳实践"><span class="nav-number">6.</span> <span class="nav-text">HTTP Caching 最佳实践</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存与频繁更新的矛盾"><span class="nav-number">7.</span> <span class="nav-text">缓存与频繁更新的矛盾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意点"><span class="nav-number">8.</span> <span class="nav-text">注意点</span></a></li></ol></div>
             
           </div>
         </section>

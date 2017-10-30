@@ -98,6 +98,15 @@ If-Modified-Since 是 Request Header 的字段</p>
 <h3 id="public-private">public &amp; private</h3>
 <p>服务器返回的 Cache-Control Header 如果有 public 字段，则表示可以多级缓存（用户代理、CDN、服务提供商）。</p>
 <p>private 则表示单用户缓存，不允许任何中继缓存对其进行缓存 - 例如，用户浏览器可以缓存包含用户私人信息的 HTML 网页，但是中间服务商不能缓存。</p>
+<h2 id="实例：express-req-fresh-的判定机制">实例：Express req.fresh 的判定机制</h2>
+<p>Express 中 req.fresh 用于判定客户端的请求是否是“新鲜”的请求（而不是对已缓存资源的请求），只有当请求头的 <code>cache-control</code> 不等于 <code>no-cache</code> 并且满足以下任意一条才表示客户端的请求是“新鲜”的（即服务器需要提供新资源）：</p>
+<blockquote>
+<ul>
+<li>指定了 <code>if-modified-since</code> 请求头并且 <code>last-modified</code> 请求头等于或时间上早于 <code>modified</code> 响应头</li>
+<li><code>if-none-match</code> 请求头是 <code>*</code></li>
+<li><code>if-none-match</code> 请求头无法匹配响应头的 <code>etag</code></li>
+</ul>
+</blockquote>
 <h2 id="http-caching-最佳实践">HTTP Caching 最佳实践</h2>
 <p><img src="http://static.zybuluo.com/yangfch3/jwinkxrha3w4bkgq59kgr89f/image_1b1ciceslctp1ho2ib1rvf1evj2n.png" alt="image_1b1ciceslctp1ho2ib1rvf1evj2n.png-47.8kB"></p>
 <h2 id="缓存与频繁更新的矛盾">缓存与频繁更新的矛盾</h2>
