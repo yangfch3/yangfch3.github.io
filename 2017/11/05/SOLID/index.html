@@ -1,0 +1,1058 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Design Patterns,OOP," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="FuChee's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="S.O.L.I.D 五原则（以下简称五原则）：  单一功能原则 开放封闭原则 里氏替换原则 接口隔离原则 依赖反转原则。">
+<meta name="keywords" content="Design Patterns,OOP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="细说 S.O.L.I.D">
+<meta property="og:url" content="http://yangfch3.com/2017/11/05/SOLID/index.html">
+<meta property="og:site_name" content="FuChee&#39;s blog">
+<meta property="og:description" content="S.O.L.I.D 五原则（以下简称五原则）：  单一功能原则 开放封闭原则 里氏替换原则 接口隔离原则 依赖反转原则。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://static.zybuluo.com/yangfch3/1vhmouqgjzw983ftbiuqlyoi/image_1bqcv642t1bj01a041g0udcae4l9.png">
+<meta property="og:image" content="http://static.zybuluo.com/yangfch3/1dl9j3ppshabajdnq3ujua8k/image_1bu3f0pemstn1htf3bl1v9l157719.png">
+<meta property="og:image" content="http://static.zybuluo.com/yangfch3/fhc0rg3c34qz6utayxdxgdsx/image_1bu4tvefb1bf415tk15pf1ufd18eq1m.png">
+<meta property="og:image" content="http://static.zybuluo.com/yangfch3/op876brznpgc56yawj4dsu1f/image_1bu4tvpgf1nfi2giv6bqjd1apb23.png">
+<meta property="og:image" content="http://static.zybuluo.com/yangfch3/dmo4sdqgvlw6uaa0a1eljgjm/image_1bu57m1gtbj8122q11etnn75gm2g.png">
+<meta property="og:updated_time" content="2017-11-05T10:27:57.772Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="细说 S.O.L.I.D">
+<meta name="twitter:description" content="S.O.L.I.D 五原则（以下简称五原则）：  单一功能原则 开放封闭原则 里氏替换原则 接口隔离原则 依赖反转原则。">
+<meta name="twitter:image" content="http://static.zybuluo.com/yangfch3/1vhmouqgjzw983ftbiuqlyoi/image_1bqcv642t1bj01a041g0udcae4l9.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 细说 S.O.L.I.D | FuChee's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-77426135-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">FuChee's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-subscription">
+          <a href="https://feedburner.google.com/fb/a/mailverify?uri=Yangfch3sBlog&loc=en_US" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-envelope"></i> <br />
+            
+            邮件订阅
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                细说 S.O.L.I.D
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-11-05T18:18:01+08:00" content="2017-11-05">
+              2017-11-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/软件工程/" itemprop="url" rel="index">
+                    <span itemprop="name">软件工程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/11/05/SOLID/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/11/05/SOLID/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><code>S.O.L.I.D</code> 五原则（以下简称五原则）：</p>
+<ul>
+<li><strong>单一功能原则</strong></li>
+<li><strong>开放封闭原则</strong></li>
+<li><strong>里氏替换原则</strong></li>
+<li><strong>接口隔离原则</strong></li>
+<li><strong>依赖反转原则</strong>。</li>
+</ul>
+<a id="more"></a>
+<p><img src="http://static.zybuluo.com/yangfch3/1vhmouqgjzw983ftbiuqlyoi/image_1bqcv642t1bj01a041g0udcae4l9.png" alt="image_1bqcv642t1bj01a041g0udcae4l9.png-40kB"></p>
+<p><code>S.O.L.I.D</code> 做为面向对象编程和面向对象设计的五个基本原则，在面向对象的软件开发史上做为“最佳实践”指导着人们开发出代码清晰可读、容易维护和扩展的系统。</p>
+<p><code>S.O.L.I.D</code> 由 <a href="http://butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod" target="_blank" rel="external">Robert C. Martin (Uncle Bob)</a> 总结提出。</p>
+<h2 id="code-rot">Code rot</h2>
+<p><img src="http://static.zybuluo.com/yangfch3/1dl9j3ppshabajdnq3ujua8k/image_1bu3f0pemstn1htf3bl1v9l157719.png" alt="image_1bu3f0pemstn1htf3bl1v9l157719.png-257.2kB"><br>
+什么样的代码是烂代码呢？如何识别将来可能会演变成烂代码的代码呢？</p>
+<ol>
+<li><strong>刚性</strong>：小改变导致整个系统重写</li>
+<li><strong>脆弱性</strong>：一个模块的改变导致其他不相关模块行为变得不当，想象一下一台汽车因为电台的变动影响到了车窗的使用</li>
+<li><strong>不可迁移性</strong>：一个模块的内部组件不能提取到新环境使用，原因是组件间的耦合与强依赖。规避策略是将中央抽象与 low-level 细节分离</li>
+<li><strong>粘性</strong>：当构建和测试难以进行，需要花费大量的时间执行（例如：在充值处做了小改动，也需要花费时间去测试游戏各个环节能否正常运行）</li>
+</ol>
+<p>人们主要能体会到软件中的两类价值：</p>
+<ol>
+<li>帮助人们更好地做某件事，提高生产力，降低时间与金钱支出</li>
+<li><strong>软件的行为表现</strong>：满足现阶段的用户需求，同时能频繁地变动以满足用户的需求变更，且没有 Bug 与崩溃。</li>
+</ol>
+<p>第一类价值的保证靠的的团队的产品等角色的发挥，而第二类价值的保证则需要工程师的软件架构设计来保证了，而 S.O.L.I.D 是应用最为广泛也最为基础的设计指导原则。</p>
+<hr>
+<h2 id="单一功能原则-rsp">单一功能原则 - RSP</h2>
+<h3 id="解释">解释</h3>
+<p>一个类或类似的结构只做一件事，只因为一个原因而发生变动</p>
+<h3 id="详细阐述">详细阐述</h3>
+<p>类的一切数据与方法都应该与这个单一的职责有关，即凝聚力。但这并不意味着你的类只能包含一个方法或属性。</p>
+<h3 id="优点">优点</h3>
+<ol>
+<li>降低类的复杂度</li>
+<li>提高可维护性</li>
+<li>提高可读性</li>
+<li>降低需求变化带来的风险</li>
+</ol>
+<h3 id="示例">示例</h3>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// <span class="type">Not</span> good, **<span class="number">3</span>** responsibility</div><div class="line">class <span class="type">Employee</span> &#123;</div><div class="line">    public <span class="type">Pay</span> calculatePay() <span class="meta">&#123;...&#125;</span> <span class="comment"># 1) calculation logic</span></div><div class="line">    public <span class="built_in">void</span> save() <span class="meta">&#123;...&#125;</span> <span class="comment"># 2) database logic</span></div><div class="line">    public <span class="type">String</span> describeEmployee() <span class="meta">&#123;...&#125;</span> <span class="comment"># 3) reporting logic</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Modem 类的设计改进：<br>
+<img src="http://static.zybuluo.com/yangfch3/fhc0rg3c34qz6utayxdxgdsx/image_1bu4tvefb1bf415tk15pf1ufd18eq1m.png" alt="image_1bu4tvefb1bf415tk15pf1ufd18eq1m.png-9.4kB"> =&gt; <img src="http://static.zybuluo.com/yangfch3/op876brznpgc56yawj4dsu1f/image_1bu4tvpgf1nfi2giv6bqjd1apb23.png" alt="image_1bu4tvpgf1nfi2giv6bqjd1apb23.png-28.1kB"></p>
+<hr>
+<h2 id="开放封闭原则-ocp">开放封闭原则 - OCP</h2>
+<h3 id="解释-v2">解释</h3>
+<p>软件中的对象（类，模块，函数等等）对扩展开放，对修改封闭。</p>
+<h3 id="详细阐述-v2">详细阐述</h3>
+<p>现有代码应该只在下面三种情况进行 <strong>修改</strong>：</p>
+<ol>
+<li>现有代码里有 Bug 或错误</li>
+<li>现有代码实现的需求发生了变动（例如之前确定的算法或逻辑发生了改变）</li>
+</ol>
+<p>下面情况不应该需要改变现有代码，而能通过<strong>继承</strong>、<strong>多态</strong>来进行 <strong>扩展</strong> 即可变更软件的行为：</p>
+<ol>
+<li>以前做过可预测的同类需求。例如在员工管理系统中需要新增一个员工类型，支付系统需要新增一种支付方式</li>
+</ol>
+<p>通常的实现方法：<strong>对抽象编程，而不对具体编程；使用抽象类或接口，而不是使用具体的类；新功能的的增加通过实现继承抽象类或实现接口，而非改变已有代码来完成。</strong></p>
+<p><strong>只有在将会发生的变化是可预测的情况下，OCP 才会有所帮助，所以你应当只有在类似的变化已经发生过的情况下使用它。</strong></p>
+<h3 id="优点-v2">优点</h3>
+<ol>
+<li>扩展新功能时不容易引入新 Bug</li>
+<li>新的功能添加无需对全部代码进行代码审查、单元测试</li>
+<li>代码稳定性</li>
+<li>解耦，增加弹性</li>
+</ol>
+<h3 id="实例">实例</h3>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Not Good</span></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * 不难预料，将来可能支持除现金之外的收款方式</span></div><div class="line"><span class="comment"> * 这里直接写死成 acceptCash</span></div><div class="line"><span class="comment"> */</span></div><div class="line">void checkOut(Receipt receipt) &#123;</div><div class="line">  Money <span class="keyword">total</span> = Money.zero;</div><div class="line">  <span class="keyword">for</span> (item : items) &#123;</div><div class="line">    <span class="keyword">total</span> += item.getPrice();</div><div class="line">    receipt.addItem(item);</div><div class="line">  &#125;</div><div class="line">  Payment p = acceptCash(<span class="keyword">total</span>);</div><div class="line">  receipt.addPayment(p);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 将来需要新增一种收款方式，可能会被改成这样</span></div><div class="line">void checkOut(Receipt receipt) &#123;</div><div class="line">  Money <span class="keyword">total</span> = Money.zero;</div><div class="line">  <span class="keyword">for</span> (item : items) &#123;</div><div class="line">    <span class="keyword">total</span> += item.getPrice();</div><div class="line">    receipt.addItem(item);</div><div class="line">  &#125;</div><div class="line">  Payment p;</div><div class="line">  <span class="keyword">if</span> (credit)</div><div class="line">    p = acceptCredit(<span class="keyword">total</span>);</div><div class="line">  <span class="keyword">else</span></div><div class="line">    p = acceptCash(<span class="keyword">total</span>);</div><div class="line">  receipt.addPayment(p);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Good</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">PaymentMethod</span> &#123;<span class="function"><span class="keyword">void</span> <span class="title">acceptPayment</span>(<span class="params">Money total</span>)</span>;&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">checkOut</span>(<span class="params">Receipt receipt, PaymentMethod pm</span>) </span>&#123;</div><div class="line">  Money total = Money.zero;</div><div class="line">  <span class="keyword">for</span> (item : items) &#123;</div><div class="line">    total += item.getPrice();</div><div class="line">    receipt.addItem(item);</div><div class="line">  &#125;</div><div class="line">  Payment p = pm.acceptPayment(total);</div><div class="line">  receipt.addPayment(p);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="里氏替换原则-lsp">里氏替换原则 - LSP</h2>
+<h3 id="解释-v3">解释</h3>
+<p>任何基类可以出现的地方，子类一定可以出现。所有子类需要按照其基本类别的方式进行操作。子类可以扩展父类的功能，但不能改变父类原有的行为预期。</p>
+<h3 id="详细阐述-v3">详细阐述</h3>
+<p>Liskov 提出的关于继承的原则：<strong>继承必须确保超类中所拥有的属性与方法在子类中仍然拥有</strong>。</p>
+<p>Robert C. Martin 提出了更抽象的简化：<strong>子类必须能够替换成他们的基类</strong>。这也是里氏替换原则的精髓。</p>
+<p>LSP 是继承复用的基石，只有当子类可以替换基类，软件单位的功能不受影响时，基类才能真正的被复用，而子类也可以在基类的基础上增加新的行为。</p>
+<p>一般来说，如果超类的子类型做了超类的客户端所不期望的事情，那么这违背了 LSP。设想一个派生类抛出一个异常，超类不抛出，或者如果一个派生类有一些意想不到的副作用。</p>
+<p>更具有指导意义的详细规范：</p>
+<ol>
+<li>子类可以实现父类的抽象方法，但是不能覆盖父类的非抽象方法。</li>
+<li>子类中可以增加自己特有的方法。</li>
+<li>当子类覆盖或实现父类的方法时，方法的前置条件（即方法的形参）要比父类方法的输入参数更宽松。</li>
+<li>当子类的方法实现父类的抽象方法时，方法的后置条件（即方法的返回值）要比父类更严格。</li>
+</ol>
+<h3 id="优点-v3">优点</h3>
+<ol>
+<li>里氏替换原则是实现开放封闭原则的具体规范</li>
+<li>见开放封闭原则的优缺点</li>
+</ol>
+<h3 id="示例-v2">示例</h3>
+<p>见 <a href="http://www.cnblogs.com/hellojava/archive/2013/03/15/2960905.html" target="_blank" rel="external">链接</a></p>
+<hr>
+<h2 id="接口隔离原则-isp">接口隔离原则 - ISP</h2>
+<h3 id="解释-v4">解释</h3>
+<p>一个类不应该被强制依赖它不需要的接口成员。多个小的、特定的、具有内聚性的客户端接口要好于单个宽泛用途的、内聚性差的接口。</p>
+<h3 id="详细阐述-v4">详细阐述</h3>
+<p>与单一职责原则的不同点：</p>
+<ol>
+<li>单一职责原则注重的是对象的职责；而接口隔离原则注重对接口依赖的隔离</li>
+<li>单一职责原则主要是约束类，其次才是接口和方法，它针对的是程序中的实现和细节；而接口隔离原则主要约束接口，主要针对抽象，针对程序整体框架的构建</li>
+</ol>
+<p>接口的粒度需要我们自己去把控，接口的粒度过小会造成接口数量过多，设计复杂化；接口粒度过大，就很容易违背接口隔离原则。</p>
+<p>另见下方示例</p>
+<h3 id="优点-v4">优点</h3>
+<ol>
+<li>灵活性</li>
+<li>避免接口臃肿</li>
+</ol>
+<h3 id="示例-v3">示例</h3>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Not Good</span></div><div class="line"><span class="selector-tag">public</span> <span class="selector-tag">interface</span> <span class="selector-tag">Messenger</span> &#123;</div><div class="line">  <span class="selector-tag">askForCard</span>();</div><div class="line">  <span class="selector-tag">tellInvalidCard</span>();</div><div class="line">  <span class="selector-tag">askForPin</span>();</div><div class="line">  <span class="selector-tag">tellInvalidPin</span>();</div><div class="line">  <span class="selector-tag">tellCardWasSiezed</span>();</div><div class="line">  <span class="selector-tag">askForAccount</span>();</div><div class="line">  <span class="selector-tag">tellNotEnoughMoneyInAccount</span>();</div><div class="line">  <span class="selector-tag">tellAmountDeposited</span>();</div><div class="line">  <span class="selector-tag">tellBalance</span>();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Good</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">LoginMessenger</span> </span>&#123;</div><div class="line">  askForCard();</div><div class="line">  tellInvalidCard();</div><div class="line">  askForPin();</div><div class="line">  tellInvalidPin();	</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">WithdrawalMessenger</span> </span>&#123;</div><div class="line">  tellNotEnoughMoneyInAccount();</div><div class="line">  askForFeeConfirmation();</div><div class="line">&#125;</div><div class="line"></div><div class="line">publc <span class="class"><span class="keyword">class</span> <span class="title">EnglishMessenger</span> <span class="keyword">implements</span> <span class="title">LoginMessenger</span>, <span class="title">WithdrawalMessenger</span> </span>&#123;</div><div class="line">  ...	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="依赖反转原则-dip">依赖反转原则 - DIP</h2>
+<h3 id="解释-v5">解释</h3>
+<ol>
+<li>高层模块不应该依赖低层模块，所有模块都应该依赖抽象</li>
+<li>抽象不应该依赖细节/具体</li>
+<li>细节/具体应该依赖抽象</li>
+</ol>
+<h3 id="详细阐述-v5">详细阐述</h3>
+<p>什么是依赖？</p>
+<blockquote>
+<p>不是我自身的，却是我需要的，都是我所依赖的。<br>
+我若依赖你，我就不能离开你。</p>
+</blockquote>
+<p>什么是高层模块？什么是低层模块？</p>
+<blockquote>
+<p>类 A 直接依赖于类 B，假如要将类 A 修改为依赖类 C，则必须通过修改类 A 的代码来达成。这种场景下，类 A 一般是高层模块，负责复杂的业务逻辑。类 B 和 C 是底层模块，负责基本的原子操作。</p>
+</blockquote>
+<p>什么是抽象？什么是细节？</p>
+<blockquote>
+<p>抽象：抽象类或接口<br>
+细节：具体的实现类或实现方法</p>
+</blockquote>
+<p>这里的依赖是什么？反转后的依赖变成了什么？</p>
+<blockquote>
+<p>这里的依赖原本指高层模块对低层模块的依赖，倒置的依赖演变成实现类对接口或抽象类的依赖</p>
+</blockquote>
+<p>反转怎么理解？</p>
+<blockquote>
+<p>由于低层组件是对高层组件接口的具体实现，因此低层组件包的编译是依赖于高层组件的，这颠倒了传统的依赖关系。</p>
+</blockquote>
+<p><img src="http://static.zybuluo.com/yangfch3/dmo4sdqgvlw6uaa0a1eljgjm/image_1bu57m1gtbj8122q11etnn75gm2g.png" alt=""></p>
+<h3 id="优点-v5">优点</h3>
+<ol>
+<li>松散耦合</li>
+<li>多人开发，提取模块的抽象，可以进行多人并行开发</li>
+<li>违背了依赖反转原则，那么开放封闭原则也就无法实行</li>
+</ol>
+<h3 id="示例-v4">示例</h3>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 模块 A</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Reader</span> &#123;</span> <span class="keyword">char</span> getchar(); &#125;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Writer</span> &#123;</span> <span class="keyword">void</span> putchar(<span class="keyword">char</span> c)&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CharCopier</span> &#123;</span></div><div class="line">  <span class="keyword">void</span> copy(Reader reader, Writer writer) &#123;</div><div class="line">    <span class="keyword">int</span> c;</div><div class="line">    <span class="keyword">while</span> ((c = reader.getchar()) != EOF) &#123;</div><div class="line">      writer.putchar();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 模块 B</span></div><div class="line"><span class="keyword">public</span> Keyboard <span class="keyword">implements</span> Reader &#123;...&#125;</div><div class="line"><span class="keyword">public</span> Printer <span class="keyword">implements</span> Writer &#123;…&#125;</div><div class="line"></div><div class="line"><span class="comment">// 应用</span></div><div class="line">...</div><div class="line"><span class="keyword">new</span> CharCopier(<span class="keyword">new</span> Keyboard(), <span class="keyword">new</span> Writer());</div></pre></td></tr></table></figure>
+<p>或见 <a href="http://www.cnblogs.com/hellojava/archive/2013/03/18/2966684.html" target="_blank" rel="external">链接</a></p>
+<h3 id="说明">说明</h3>
+<p>依赖倒置原则的核心就是 <strong>面向接口编程的思想</strong>，尽量对每个实现类都提取抽象和公共接口形成接口或抽象类，依赖于抽象而不要依赖于具体实现。但是这个原则也是 5 个设计原则中最难以实现的了，如果没有实现这个原则，那么也就意味着开闭原则（对扩展开放，对修改关闭）也无法实现。</p>
+<p>依赖倒置原则或者说面向接口编程的思想催生了许多经典的设计模式，欲细究可自行深入研究面向接口编程。</p>
+<hr>
+<p>参考资料：<br>
+<a href="https://zeroturnaround.com/rebellabs/object-oriented-design-principles-and-the-5-ways-of-creating-solid-applications/" target="_blank" rel="external">Object-oriented design principles and the 5 ways of creating SOLID applications</a><br>
+<a href="http://www.cnblogs.com/hellojava/category/431379.html" target="_blank" rel="external">http://www.cnblogs.com/hellojava/category/431379.html</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block； padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat_qrcode.jpg" alt="FuChee wechat" style="width: 200px; max-width: 100%;"/>
+    <div>扫一扫，关注我</div>
+</div>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Design-Patterns/" rel="tag">#Design Patterns</a>
+          
+            <a href="/tags/OOP/" rel="tag">#OOP</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/19/HTTP-Cache/" rel="next" title="Web 缓存及策略制定">
+                <i class="fa fa-chevron-left"></i> Web 缓存及策略制定
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img src="http://ce.sysu.edu.cn/dist/images/yangfch3_shareImg.JPG" style="width: 250px; height: 250px; display: none">
+          <img class="site-author-image" itemprop="image"
+               src="https://avatars2.githubusercontent.com/u/10143583?v=3&s=460"
+               alt="FuChee" />
+          <p class="site-author-name" itemprop="name">FuChee</p>
+          <p class="site-description motion-element" itemprop="description">SYSU/Hope Studio/Tencent/...</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yangfch3" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/yangfch3" target="_blank" title="twitter">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3746561661/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://douban.com/people/yangfch3" target="_blank" title="douban">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  douban
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/yangfch3" target="_blank" title="zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#code-rot"><span class="nav-number">1.</span> <span class="nav-text">Code rot</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单一功能原则-rsp"><span class="nav-number">2.</span> <span class="nav-text">单一功能原则 - RSP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解释"><span class="nav-number">2.1.</span> <span class="nav-text">解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#详细阐述"><span class="nav-number">2.2.</span> <span class="nav-text">详细阐述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优点"><span class="nav-number">2.3.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例"><span class="nav-number">2.4.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开放封闭原则-ocp"><span class="nav-number">3.</span> <span class="nav-text">开放封闭原则 - OCP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解释-v2"><span class="nav-number">3.1.</span> <span class="nav-text">解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#详细阐述-v2"><span class="nav-number">3.2.</span> <span class="nav-text">详细阐述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优点-v2"><span class="nav-number">3.3.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例"><span class="nav-number">3.4.</span> <span class="nav-text">实例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#里氏替换原则-lsp"><span class="nav-number">4.</span> <span class="nav-text">里氏替换原则 - LSP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解释-v3"><span class="nav-number">4.1.</span> <span class="nav-text">解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#详细阐述-v3"><span class="nav-number">4.2.</span> <span class="nav-text">详细阐述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优点-v3"><span class="nav-number">4.3.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-v2"><span class="nav-number">4.4.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口隔离原则-isp"><span class="nav-number">5.</span> <span class="nav-text">接口隔离原则 - ISP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解释-v4"><span class="nav-number">5.1.</span> <span class="nav-text">解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#详细阐述-v4"><span class="nav-number">5.2.</span> <span class="nav-text">详细阐述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优点-v4"><span class="nav-number">5.3.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-v3"><span class="nav-number">5.4.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#依赖反转原则-dip"><span class="nav-number">6.</span> <span class="nav-text">依赖反转原则 - DIP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解释-v5"><span class="nav-number">6.1.</span> <span class="nav-text">解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#详细阐述-v5"><span class="nav-number">6.2.</span> <span class="nav-text">详细阐述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优点-v5"><span class="nav-number">6.3.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-v4"><span class="nav-number">6.4.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#说明"><span class="nav-number">6.5.</span> <span class="nav-text">说明</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FuChee</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'yangfch3-blog';
+      var disqus_identifier = '2017/11/05/SOLID/';
+      var disqus_title = '细说 S.O.L.I.D';
+      var disqus_url = 'http://yangfch3.com/2017/11/05/SOLID/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+</body>
+</html>
