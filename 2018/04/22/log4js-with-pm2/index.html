@@ -1,0 +1,946 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="pm2,log4js," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="FuChee's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="我相信你是在使用 pm2 和 log4js 中踩到了坑才会搜素到这篇文章，我便假定你已经对二者都有了基本的了解，遂不再赘述二者的介绍。 pm2 在使用 cluster 模式部署应用时，服务都通过 worker 进程提供，pm2 做为 master 进行监控管理。  由于存在多个 worker 进程，那么我们在使用 log4js 进行日志记录时会有下列疑问：  多个 worker 进程能否正常写入同">
+<meta name="keywords" content="pm2,log4js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pm2 与 log4js 混用指南">
+<meta property="og:url" content="http://yangfch3.com/2018/04/22/log4js-with-pm2/index.html">
+<meta property="og:site_name" content="FuChee&#39;s blog">
+<meta property="og:description" content="我相信你是在使用 pm2 和 log4js 中踩到了坑才会搜素到这篇文章，我便假定你已经对二者都有了基本的了解，遂不再赘述二者的介绍。 pm2 在使用 cluster 模式部署应用时，服务都通过 worker 进程提供，pm2 做为 master 进行监控管理。  由于存在多个 worker 进程，那么我们在使用 log4js 进行日志记录时会有下列疑问：  多个 worker 进程能否正常写入同">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yangfch3.com/2018/04/22/log4js-with-pm2/pm2.png">
+<meta property="og:updated_time" content="2018-04-22T07:57:52.355Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="pm2 与 log4js 混用指南">
+<meta name="twitter:description" content="我相信你是在使用 pm2 和 log4js 中踩到了坑才会搜素到这篇文章，我便假定你已经对二者都有了基本的了解，遂不再赘述二者的介绍。 pm2 在使用 cluster 模式部署应用时，服务都通过 worker 进程提供，pm2 做为 master 进行监控管理。  由于存在多个 worker 进程，那么我们在使用 log4js 进行日志记录时会有下列疑问：  多个 worker 进程能否正常写入同">
+<meta name="twitter:image" content="http://yangfch3.com/2018/04/22/log4js-with-pm2/pm2.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> pm2 与 log4js 混用指南 | FuChee's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-77426135-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">FuChee's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-subscription">
+          <a href="https://feedburner.google.com/fb/a/mailverify?uri=Yangfch3sBlog&loc=en_US" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-envelope"></i> <br />
+            
+            邮件订阅
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                pm2 与 log4js 混用指南
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-04-22T16:44:11+08:00" content="2018-04-22">
+              2018-04-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/库与工具/" itemprop="url" rel="index">
+                    <span itemprop="name">库与工具</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2018/04/22/log4js-with-pm2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/22/log4js-with-pm2/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我相信你是在使用 <code>pm2</code> 和 <code>log4js</code> 中踩到了坑才会搜素到这篇文章，我便假定你已经对二者都有了基本的了解，遂不再赘述二者的介绍。</p>
+<p><code>pm2</code> 在使用 <code>cluster</code> 模式部署应用时，服务都通过 <code>worker</code> 进程提供，<code>pm2</code> 做为 <code>master</code> 进行监控管理。</p>
+<img src="/2018/04/22/log4js-with-pm2/pm2.png" title="pm2">
+<p>由于存在多个 <code>worker</code> 进程，那么我们在使用 <code>log4js</code> 进行日志记录时会有下列疑问：</p>
+<ol>
+<li>多个 <code>worker</code> 进程能否正常写入同一个日志文件</li>
+<li>要实现 1，<code>pm2</code> 需要作何处理，<code>log4js</code> 需要作何处理</li>
+</ol>
+<a id="more"></a>
+<h2 id="退而求其次：多进程分日志？">退而求其次：多进程分日志？</h2>
+<p>首先来尝试“逃避”上面的两个问题。</p>
+<p>要“逃避”上面疑问最简易的方案就是：每个进程写入自己的日志文件（例如：<code>robotService-worker&lt;id&gt;.log</code>）。只需要对 <code>log4js</code> 做一下简易的设置即可实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    disableClustering: <span class="literal">true</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个方案带来了<strong>日志分散、查阅与处理不方便</strong>的问题，一般情况下不采用。此方案较为经典的使用场景是 <code>pomelo</code> 的多进程游戏日志采集（但 <code>pomelo</code> 不是使用 <code>cluster</code> 来搭建集群）。</p>
+<h2 id="log4js-与-pm2-相关源码">log4js 与 pm2 相关源码</h2>
+<p><code>lib/log4js</code> 下的 <code>getLogger</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Get a logger instance.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@static</span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> loggerCategoryName</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> &#123;Logger&#125; instance of logger for the category</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getLogger</span><span class="params">(category)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!enabled) &#123;</span><br><span class="line">    configure(process.env.LOG4JS_CONFIG || defaultConfig);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> cat = category || <span class="string">'default'</span>;</span><br><span class="line">  debug(`creating logger <span class="keyword">as</span> $&#123;isMaster() ? <span class="string">'master'</span> : <span class="string">'worker'</span>&#125;`);</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> Logger((isMaster() ? sendLogEventToAppender : workerDispatch), cat);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>说明 <code>log4js</code> 在 <code>cluster</code> 集群模式下与单进程模式（<strong><code>isMaster</code> 方法来区分</strong>）下获取 <code>logger</code> 的存在差异。我们关注到 <code>log4js</code> 在 <code>worker</code> 进程下执行的是 <strong><code>workerDispatch</code></strong>。</p>
+<p>下面是 <code>isMaster</code> 的源码：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isPM2Master</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">config</span>.pm2 &amp;&amp; process.env[<span class="built_in">config</span>.pm2InstanceVar] === <span class="string">'0'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isMaster</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">config</span>.disableClustering || cluster.isMaster || isPM2Master();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>说明 <code>log4js</code> 对普通的 <code>cluster</code> 模式和 <code>pm2</code> 的 <code>cluster</code> 模式又做了区分。我们留意到有两个可配置项：<code>pm2</code> <code>pm2InstanceVar</code>，可以查看 <code>log4js</code> 的<a href="https://log4js-node.github.io/log4js-node/api.html" target="_blank" rel="noopener">文档</a>了解这两个配置项。</p>
+<p>继续看 <code>workerDispatch</code> 的源码：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">function</span> <span class="selector-tag">workerDispatch</span>(logEvent) &#123;</span><br><span class="line">  <span class="selector-tag">debug</span>(<span class="built_in">`sending message to master from worker $&#123;process.pid&#125;`</span>);</span><br><span class="line">  <span class="selector-tag">process</span><span class="selector-class">.send</span>(&#123; <span class="attribute">topic</span>: <span class="string">'log4js:message'</span>, <span class="attribute">data</span>: serialise(logEvent) &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以得知：<strong>在 pm2 cluster 模式下，<code>log4js</code> 不在 worker 进程直接记录日志，而是将需要记录日志的消息发送给 <code>master</code> 进程。</strong></p>
+<p><code>log4js</code> 既然有发送消息的代码，那肯定有接收消息的代码，下面是接收消息的代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">configure</span>(<span class="params">configurationFileOrObject</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> configObject = configurationFileOrObject;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> configObject === <span class="string">'string'</span>) &#123;</span><br><span class="line">    configObject = loadConfigurationFile(configurationFileOrObject);</span><br><span class="line">  &#125;</span><br><span class="line">  debug(<span class="string">`Configuration is <span class="subst">$&#123;configObject&#125;</span>`</span>);</span><br><span class="line">  config = <span class="keyword">new</span> Configuration(configObject);</span><br><span class="line">  <span class="built_in">module</span>.exports.levels = config.levels;</span><br><span class="line">  <span class="keyword">const</span> loggerModule = logger(config.levels, levelForCategory, setLevelForCategory);</span><br><span class="line">  Logger = loggerModule.Logger;</span><br><span class="line">  LoggingEvent = loggerModule.LoggingEvent;</span><br><span class="line">  <span class="built_in">module</span>.exports.connectLogger = connectModule(config.levels).connectLogger;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// just in case configure is called after shutdown</span></span><br><span class="line">  process.removeListener(<span class="string">'message'</span>, receiver);</span><br><span class="line">  <span class="keyword">if</span> (cluster) &#123;</span><br><span class="line">    cluster.removeListener(<span class="string">'message'</span>, receiver);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (config.disableClustering) &#123;</span><br><span class="line">    debug(<span class="string">'Not listening for cluster messages, because clustering disabled.'</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isPM2Master()) &#123;</span><br><span class="line">    <span class="comment">// PM2 cluster support</span></span><br><span class="line">    <span class="comment">// PM2 runs everything as workers - install pm2-intercom for this to work.</span></span><br><span class="line">    <span class="comment">// we only want one of the app instances to write logs</span></span><br><span class="line">    debug(<span class="string">'listening for PM2 broadcast messages'</span>);</span><br><span class="line">    process.on(<span class="string">'message'</span>, receiver);</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (cluster.isMaster) &#123;</span><br><span class="line">    debug(<span class="string">'listening for cluster messages'</span>);</span><br><span class="line">    cluster.on(<span class="string">'message'</span>, receiver);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    debug(<span class="string">'not listening for messages, because we are not a master process'</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  enabled = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> log4js;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// in a multi-process node environment, worker loggers will use</span></span><br><span class="line"><span class="comment">// process.send</span></span><br><span class="line"><span class="keyword">const</span> receiver = <span class="function">(<span class="params">worker, message</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// prior to node v6, the worker parameter was not passed (args were message, handle)</span></span><br><span class="line">  debug(<span class="string">'cluster message received from worker '</span>, worker, <span class="string">': '</span>, message);</span><br><span class="line">  <span class="keyword">if</span> (worker.topic &amp;&amp; worker.data) &#123;</span><br><span class="line">    message = worker;</span><br><span class="line">    worker = <span class="literal">undefined</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (message &amp;&amp; message.topic &amp;&amp; message.topic === <span class="string">'log4js:message'</span>) &#123;</span><br><span class="line">    debug(<span class="string">'received message: '</span>, message.data);</span><br><span class="line">    sendLogEventToAppender(deserialise(message.data));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sendLogEventToAppender</span>(<span class="params">logEvent</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!enabled) <span class="keyword">return</span>;</span><br><span class="line">  debug(<span class="string">'Received log event '</span>, logEvent);</span><br><span class="line">  <span class="keyword">const</span> appenders = appendersForCategory(logEvent.categoryName);</span><br><span class="line">  appenders.forEach(<span class="function">(<span class="params">appender</span>) =&gt;</span> &#123;</span><br><span class="line">    appender(logEvent);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也就是日志是由 <code>worker</code> --①–&gt; pm2 <code>master</code> --②–&gt; <code>worker</code> 进行的传递，其思路就是日志只由一个 <code>worker</code> 去记录。<strong>而 ② 处的转发以及选择哪一个 <code>worker</code> 去接收就需要 <code>pm2-intercom</code> 这个 pm2 的 module 来处理了。</strong></p>
+<h2 id="结论">结论</h2>
+<p>要解决前言中的两个疑问，可以这样做：</p>
+<ol>
+<li><code>pm2</code> 安装 <code>pm2 install pm2-intercom</code></li>
+<li><code>log4js</code> 启用以下配置： <figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    pm2: <span class="literal">true</span></span><br><span class="line">    <span class="string">//</span> <span class="string">...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="结束了？">结束了？</h2>
+<p>没有。</p>
+<p>在上面的代码中我们发现 <code>isPM2Master</code> 的判断中有这样一句代码：<code>process.env[config.pm2InstanceVar] === '0'</code>。</p>
+<p>我们查阅 <code>pm2</code> 的<a href="http://pm2.keymetrics.io/docs/usage/environment/#specific-environment-variables" target="_blank" rel="noopener">文档</a>发现，<code>pm2</code> 的进程都是有编号的，默认使用 <code>NODE_APP_INSTANCE</code> 环境变量（<strong>可以自己配置指定</strong>）上标识是 <code>master</code>（=== ‘0’） 还是 <code>worker</code>。<code>log4js</code> 也是根据这个特征来实现 <code>isPM2Master</code> 检测。</p>
+<p>但是 <code>pm2</code> 不一定使用默认的 <code>NODE_APP_INSTANCE</code> 环境变量来编号，可能会变化——可能是用户自己定义了其他名称（例如<code>node-config</code> 将这个环境变量字段占用了，<code>pm2</code> 只能改用其他的），所以当 <code>pm2</code> 改变了字段名时，<code>log4js</code> 要做相应的配置：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attribute">pm2InstanceVar</span>: <span class="string">'INSTANCE_ID'</span>; <span class="comment">// 默认 NODE_APP_INSTANCE，与 pm2 的配置保持一致即可</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="附赠：单机多-pm2-实例">附赠：单机多 pm2 实例</h2>
+<p>一台机器上可以部署多个 pm2 实例，这在我们需要再一台机器上部署多个不同的服务时可以用到，例如我们可能同时在一台机器上部署 <code>web-server</code> 和 <code>api-server</code>（因为机器紧张等原因）。</p>
+<p>当我们第一次调用 <code>pm2</code> 时，我们会发现 <code>$HOME/.pm2</code> 目录被创建，里面存储着**（该）<code>pm2</code> 实例**的运行信息和日志输出。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm2 start app<span class="selector-class">.js</span> -<span class="selector-tag">i</span> <span class="number">3</span> --name=web-server</span><br></pre></td></tr></table></figure>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[admin@sypt_web-test_10.0.3.188 .pm2]<span class="comment"># pwd</span></span><br><span class="line">/home/admin/.pm2</span><br><span class="line"></span><br><span class="line">[admin@sypt_web-test_10.0.3.188 .pm2]<span class="comment"># ls -a -l</span></span><br><span class="line">total 72</span><br><span class="line">drwxrwxr-x  <span class="number"> 5 </span>admin admin <span class="number"> 4096 </span>Mar<span class="number"> 29 </span>17:19 .</span><br><span class="line">drwx------.<span class="number"> 12 </span>admin admin <span class="number"> 4096 </span>Apr<span class="number"> 11 </span>09:53 ..</span><br><span class="line">drwxrwxr-x  <span class="number"> 2 </span>admin admin <span class="number"> 4096 </span>Mar<span class="number"> 29 </span>17:20 logs</span><br><span class="line">-rw-rw-r--  <span class="number"> 1 </span>admin admin  <span class="number"> 127 </span>Mar<span class="number"> 28 </span>20:58 module_conf.json</span><br><span class="line">drwxrwxr-x  <span class="number"> 3 </span>admin admin <span class="number"> 4096 </span>Mar<span class="number"> 28 </span>20:55 modules</span><br><span class="line">drwxrwxr-x  <span class="number"> 2 </span>admin admin <span class="number"> 4096 </span>Apr<span class="number"> 16 </span>15:24 pids</span><br><span class="line">-rw-rw-r--  <span class="number"> 1 </span>admin admin<span class="number"> 34054 </span>Apr<span class="number"> 16 </span>15:24 pm2.log</span><br><span class="line">-rw-rw-r--  <span class="number"> 1 </span>admin admin    <span class="number"> 4 </span>Mar<span class="number"> 29 </span>17:19 pm2.pid</span><br><span class="line">srwxrwxr-x  <span class="number"> 1 </span>admin admin    <span class="number"> 0 </span>Mar<span class="number"> 29 </span>17:19 pub.sock</span><br><span class="line">srwxrwxr-x  <span class="number"> 1 </span>admin admin    <span class="number"> 0 </span>Mar<span class="number"> 29 </span>17:19 rpc.sock</span><br><span class="line">-rw-rw-r--  <span class="number"> 1 </span>admin admin   <span class="number"> 13 </span>Mar<span class="number"> 24 </span>15:12 touch</span><br></pre></td></tr></table></figure>
+<p>所以要创建多个 <code>pm2</code> 实例就需要每个实例使用不同的目录来存储运行信息。<code>pm2</code> 使用 <code>PM2_HOME</code> 环境变量来识别存储运行信息的目录：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">PM2_HOME</span>=<span class="string">'/path/to/pm2/web-server/'</span> pm2 start app.js -i --name=web-server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 所有和 web-server 集群相关的 pm2 命令都加上 PM2_HOME</span></span><br><span class="line"><span class="attr">PM2_HOME</span>=<span class="string">'/path/to/pm2/web-server/'</span> pm2 list</span><br></pre></td></tr></table></figure>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">PM2_HOME</span>=<span class="string">'/path/to/pm2/api-server/'</span> pm2 start app.js -i --name=api-server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 所有和 api-server 集群相关的 pm2 命令都加上 PM2_HOME</span></span><br><span class="line"><span class="attr">PM2_HOME</span>=<span class="string">'/path/to/pm2/api-server/'</span> pm2 list</span><br></pre></td></tr></table></figure>
+<p>为特定的 <code>pm2</code> 实例安装模块：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">PM2_HOME</span>=<span class="string">'/path/to/pm2/web-server/'</span> pm2 install pm2-intercom</span><br><span class="line"><span class="attr">PM2_HOME</span>=<span class="string">'/path/to/pm2/api-server/'</span> pm2 install pm2-intercom</span><br></pre></td></tr></table></figure>
+<p>Tip：pm2 模块的安装可以不使用线上下载安装的方式（例如不方便执行 <code>pm2 install</code> 操作时），你只需要将模块放到 <code>modules</code> 目录下，然后修改 <code>module_conf.json</code> 注册模块即可。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── dump.pm2</span><br><span class="line">├── dump<span class="selector-class">.pm2</span><span class="selector-class">.bak</span></span><br><span class="line">├── logs</span><br><span class="line">├── module_conf.json</span><br><span class="line">├── modules</span><br><span class="line">│   └── pm2-intercom</span><br><span class="line">│       ├── etc</span><br><span class="line">│       ├── node_modules</span><br><span class="line">│       └── package-lock.json</span><br><span class="line">├── pids</span><br><span class="line">├── pm2.log</span><br><span class="line">├── pm2.pid</span><br><span class="line">├── pub.sock</span><br><span class="line">├── rpc.sock</span><br><span class="line">└── touch</span><br></pre></td></tr></table></figure>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// module_conf.json</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"pm2-intercom"</span>: &#123;</span><br><span class="line">        <span class="string">"default-strategy"</span>: <span class="string">"broadcast"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"module-db-v2"</span>: &#123;</span><br><span class="line">        <span class="string">"pm2-intercom"</span>: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block； padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat_qrcode.jpg" alt="FuChee wechat" style="width: 200px; max-width: 100%;"/>
+    <div>扫一扫，关注我</div>
+</div>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/pm2/" rel="tag">#pm2</a>
+          
+            <a href="/tags/log4js/" rel="tag">#log4js</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/05/SOLID/" rel="next" title="细说 S.O.L.I.D">
+                <i class="fa fa-chevron-left"></i> 细说 S.O.L.I.D
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img src="http://ce.sysu.edu.cn/dist/images/yangfch3_shareImg.JPG" style="width: 250px; height: 250px; display: none">
+          <img class="site-author-image" itemprop="image"
+               src="https://avatars2.githubusercontent.com/u/10143583?v=3&s=460"
+               alt="FuChee" />
+          <p class="site-author-name" itemprop="name">FuChee</p>
+          <p class="site-description motion-element" itemprop="description">SYSU/Hope Studio/Tencent/...</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yangfch3" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/yangfch3" target="_blank" title="twitter">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3746561661/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://douban.com/people/yangfch3" target="_blank" title="douban">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  douban
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/yangfch3" target="_blank" title="zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#退而求其次：多进程分日志？"><span class="nav-number">1.</span> <span class="nav-text">退而求其次：多进程分日志？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#log4js-与-pm2-相关源码"><span class="nav-number">2.</span> <span class="nav-text">log4js 与 pm2 相关源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结论"><span class="nav-number">3.</span> <span class="nav-text">结论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结束了？"><span class="nav-number">4.</span> <span class="nav-text">结束了？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附赠：单机多-pm2-实例"><span class="nav-number">5.</span> <span class="nav-text">附赠：单机多 pm2 实例</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FuChee</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'yangfch3-blog';
+      var disqus_identifier = '2018/04/22/log4js-with-pm2/';
+      var disqus_title = 'pm2 与 log4js 混用指南';
+      var disqus_url = 'http://yangfch3.com/2018/04/22/log4js-with-pm2/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+</body>
+</html>
