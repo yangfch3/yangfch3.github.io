@@ -298,6 +298,135 @@
             
               
                 
+                <a class="post-title-link" href="/2018/04/22/log4js-with-pm2/" itemprop="url">
+                  pm2 与 log4js 混用指南
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-04-22T16:44:11+08:00" content="2018-04-22">
+              2018-04-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/库与工具/" itemprop="url" rel="index">
+                    <span itemprop="name">库与工具</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2018/04/22/log4js-with-pm2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/22/log4js-with-pm2/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>我相信你是在使用 <code>pm2</code> 和 <code>log4js</code> 中踩到了坑才会搜素到这篇文章，我便假定你已经对二者都有了基本的了解，遂不再赘述二者的介绍。</p>
+<p><code>pm2</code> 在使用 <code>cluster</code> 模式部署应用时，服务都通过 <code>worker</code> 进程提供，<code>pm2</code> 做为 <code>master</code> 进行监控管理。</p>
+<img src="/2018/04/22/log4js-with-pm2/pm2.png" alt="pm2" title="pm2">
+<p>由于存在多个 <code>worker</code> 进程，那么我们在使用 <code>log4js</code> 进行日志记录时会有下列疑问：</p>
+<ol>
+<li>多个 <code>worker</code> 进程能否正常写入同一个日志文件</li>
+<li>要实现 1，<code>pm2</code> 需要作何处理，<code>log4js</code> 需要作何处理</li>
+</ol>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2018/04/22/log4js-with-pm2/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/11/05/SOLID/" itemprop="url">
                   细说 S.O.L.I.D
                 </a>
@@ -455,8 +584,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/HTTP/" itemprop="url" rel="index">
-                    <span itemprop="name">HTTP</span>
+                  <a href="/categories/开发手册/" itemprop="url" rel="index">
+                    <span itemprop="name">开发手册</span>
                   </a>
                 </span>
 
@@ -556,7 +685,7 @@
               
                 
                 <a class="post-title-link" href="/2017/09/21/new-beginning/" itemprop="url">
-                  断舍离
+                  关于被删的旧文章
                 </a>
               
             
@@ -574,6 +703,25 @@
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/其他/" itemprop="url" rel="index">
+                    <span itemprop="name">其他</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
@@ -606,7 +754,7 @@
       
         
           
-            <p>Null</p>
+            <p>受限于以前知识深度与广度，博客旧文章存在诸多谬误，在此为以前传播过错误的知识致歉。如果你是通过搜索引擎或其他文章的引用来到本站进入了 404 页面，而你又对已经删除的文章内容感兴趣，你可以与我联系（yangfch3#<a href="http://gmail.com" target="_blank" rel="external">gmail.com</a>）索要旧稿，我会修正旧稿错误后回复给你。</p>
 
           
         
@@ -677,7 +825,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -685,7 +833,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -694,7 +842,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -785,7 +933,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
