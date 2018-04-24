@@ -99,13 +99,14 @@
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/brh4juu5r4r8f7oh9jrekcle/image_1ba7m6adr1h52bm2mblup214t59.png">
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/yes5apeozng4x0j3xpjj3ubi/image_1ba7m7h67t731ikr1461topakgm.png">
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/27ik5bf4rguih1mrpi112opo/image_1ba7mjun4h4l123b1smn13indhg13.png">
+<meta property="og:image" content="http://static.zybuluo.com/yangfch3/dphdmt262yimw0vwjl4nomk5/image_1baah8s0vcol3464t21foe1sb91g.png">
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/xrxcqw4c0ignhkxgsfiqssrk/image_1ba7qi29r1b5f12c7tvh1muh9rm.png">
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/vrr16pctepw9uct9raq881ps/image_1ba7rnvjs4gb1l35b6a1d9r3db34.png">
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/zhuzgdlqafnkjjzqwin1883w/image_1ba7rah2h136v1keujkjbn7pmv2a.png">
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/xnq7wto8jihkkkr6yhfiuppx/image_1ba7qso561sv3ep6lur1civ1vba13.png">
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/yii0ycjbnmixc2hzgt87w064/image_1ba7r0k4u12du17j819kkvcqgfv1t.png">
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/akltusf3gvtzafsrg212ot82/image_1ba7r0cuochpk331s6810jq1t8n1g.png">
-<meta property="og:updated_time" content="2018-04-24T03:46:46.059Z">
+<meta property="og:updated_time" content="2018-04-24T03:58:49.003Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浏览器内核、引擎、页面呈现原理及其优化">
 <meta name="twitter:description" content="介绍浏览器内核、JavaScript 引擎以及页面呈现原理等基础知识，同时根据原理提出页面呈现优化方案。">
@@ -647,7 +648,7 @@
 <h4 id="图层化的潜在问题-内存开销">图层化的潜在问题 —— 内存开销</h4>
 <p>那么图层化的弊端在哪里呢？</p>
 <p>因为图层化的存在，每个图层对需要在内存中存储该图层相关的信息，当图层太多会造成内存开销过大的情况（如下图）。</p>
-<center>![image_1baah8s0vcol3464t21foe1sb91g.png-31.3kB][7]</center>
+<p><img src="http://static.zybuluo.com/yangfch3/dphdmt262yimw0vwjl4nomk5/image_1baah8s0vcol3464t21foe1sb91g.png" alt="image_1baah8s0vcol3464t21foe1sb91g.png-31.3kB"></p>
 <center>同样表现的页面，单图层与多图层的内存开销</center>
 <h4 id="因为开销-所以节制">因为开销，所以节制</h4>
 <p>内存开销在桌面端可能还能接受，但是在资源有限的移动端，复合图层过多便可能导致内存开支过大，页面反而变得停滞、卡顿，甚至浏览器假死，系统无法正常运行。</p>
@@ -805,12 +806,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/02/21/new-beginning/" rel="next" title="关于被删的旧文章">
+                <i class="fa fa-chevron-left"></i> 关于被删的旧文章
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/09/21/new-beginning/" rel="prev" title="关于被删的旧文章">
-                关于被删的旧文章 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/10/19/HTTP-Cache/" rel="prev" title="Web 缓存及策略制定">
+                Web 缓存及策略制定 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

@@ -429,27 +429,6 @@ If-Modified-Since 是 Request Header 的字段</p>
     </entry>
     
     <entry>
-      <title><![CDATA[关于被删的旧文章]]></title>
-      <url>/2017/09/21/new-beginning/</url>
-      <content type="html"><![CDATA[<p>受限于以前知识深度与广度，博客旧文章存在诸多谬误，在此为以前传播过错误的知识致歉。如果你是通过搜索引擎或其他文章的引用来到本站进入了 404 页面，而你又对已经删除的文章内容感兴趣，你可以与我联系（yangfch3#<a href="http://gmail.com" target="_blank" rel="external">gmail.com</a>）索要旧稿，我会修正旧稿错误后回复给你。</p>
-]]></content>
-      
-        <categories>
-            
-            <category> Others </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> Others </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[浏览器内核、引擎、页面呈现原理及其优化]]></title>
       <url>/2017/03/04/browser-core-and-engine/</url>
       <content type="html"><![CDATA[<p>介绍浏览器内核、JavaScript 引擎以及页面呈现原理等基础知识，同时根据原理提出页面呈现优化方案。</p>
@@ -724,7 +703,7 @@ If-Modified-Since 是 Request Header 的字段</p>
 <h4 id="图层化的潜在问题-内存开销">图层化的潜在问题 —— 内存开销</h4>
 <p>那么图层化的弊端在哪里呢？</p>
 <p>因为图层化的存在，每个图层对需要在内存中存储该图层相关的信息，当图层太多会造成内存开销过大的情况（如下图）。</p>
-<center>![image_1baah8s0vcol3464t21foe1sb91g.png-31.3kB][7]</center>
+<p><img src="http://static.zybuluo.com/yangfch3/dphdmt262yimw0vwjl4nomk5/image_1baah8s0vcol3464t21foe1sb91g.png" alt="image_1baah8s0vcol3464t21foe1sb91g.png-31.3kB"></p>
 <center>同样表现的页面，单图层与多图层的内存开销</center>
 <h4 id="因为开销-所以节制">因为开销，所以节制</h4>
 <p>内存开销在桌面端可能还能接受，但是在资源有限的移动端，复合图层过多便可能导致内存开支过大，页面反而变得停滞、卡顿，甚至浏览器假死，系统无法正常运行。</p>
@@ -859,6 +838,27 @@ If-Modified-Since 是 Request Header 的字段</p>
             <tag> Web </tag>
             
             <tag> Browser </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[关于被删的旧文章]]></title>
+      <url>/2017/02/21/new-beginning/</url>
+      <content type="html"><![CDATA[<p>受限于以前知识深度与广度，博客旧文章存在诸多谬误，在此为以前传播过错误的知识致歉。如果你是通过搜索引擎或其他文章的引用来到本站进入了 404 页面，而你又对已经删除的文章内容感兴趣，你可以与我联系（yangfch3#<a href="http://gmail.com" target="_blank" rel="external">gmail.com</a>）索要旧稿，我会修正旧稿错误后回复给你。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Others </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Others </tag>
             
         </tags>
         
