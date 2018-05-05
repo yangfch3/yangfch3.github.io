@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Web,HTTP," />
+  <meta name="keywords" content="Web," />
 
 
 
@@ -86,27 +86,29 @@
 
 
 
-<meta name="description" content="我们常常会注意到静态资源后面都跟着一串指纹码：     同时我们在进行网络请求分析时会遇到 Cache-Control、Last-Modified 等这些 Header 字段。 在冥冥中，我们知道这些肯定与缓存有着重大的关系。缓存机制中有哪些关键的东西在起作用，如何制定最优的 缓存-更新 机制就是本文需要研究的问题。">
-<meta name="keywords" content="Web,HTTP">
+<meta name="description" content="如果你对 Web 排版中的 vertical-align 一直捉摸不透，那么这篇文章可能便是你一直想要寻找的资料了。">
+<meta name="keywords" content="Web">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Web 缓存及策略制定">
-<meta property="og:url" content="http://blog.yangfch3.com/2017/10/19/HTTP-Cache/index.html">
+<meta property="og:title" content="Web 排版中的 vertical-align">
+<meta property="og:url" content="http://blog.yangfch3.com/2018/05/05/vertical-align-and-web-typography/index.html">
 <meta property="og:site_name" content="FuChee&#39;s blog">
-<meta property="og:description" content="我们常常会注意到静态资源后面都跟着一串指纹码：     同时我们在进行网络请求分析时会遇到 Cache-Control、Last-Modified 等这些 Header 字段。 在冥冥中，我们知道这些肯定与缓存有着重大的关系。缓存机制中有哪些关键的东西在起作用，如何制定最优的 缓存-更新 机制就是本文需要研究的问题。">
+<meta property="og:description" content="如果你对 Web 排版中的 vertical-align 一直捉摸不透，那么这篇文章可能便是你一直想要寻找的资料了。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://static.zybuluo.com/yangfch3/8m3e3wnqpmxwhztq755quy1w/image_1b1c9hn2rcdv1jn7pav1gdtjs6m.png">
-<meta property="og:image" content="http://static.zybuluo.com/yangfch3/kp4cmtg8o50i34lh501vlhf3/image_1b1c9gujm10snq8f947iv5t49.png">
-<meta property="og:image" content="http://static.zybuluo.com/yangfch3/s3aubu6l1ylr6igytpuv18y6/image_1b1c9jtvr1aogmd0seg1o0714lu13.png">
-<meta property="og:image" content="http://static.zybuluo.com/yangfch3/44bhvo0c8c89lggd60uyyhqn/image_1b1c9of7qf6b1abfvmp1er12801g.png">
-<meta property="og:image" content="http://static.zybuluo.com/yangfch3/0gotv3wpms8o77advh2x4jqn/image_1b1cacu1n1b4019s61jo816fj5ud1t.png">
-<meta property="og:image" content="http://static.zybuluo.com/yangfch3/95pdeafw683dqhtwj8ymhnpp/image_1b1cbv67c17de1kdb16rce9mtk2a.png">
-<meta property="og:image" content="http://static.zybuluo.com/yangfch3/jwinkxrha3w4bkgq59kgr89f/image_1b1ciceslctp1ho2ib1rvf1evj2n.png">
-<meta property="og:image" content="http://static.zybuluo.com/yangfch3/0achbqbncuy3hdfar6l5thm7/image_1b1cj198v4itmue1ishdsecbj34.png">
-<meta property="og:updated_time" content="2018-04-24T03:43:32.252Z">
+<meta property="og:image" content="http://static.zybuluo.com/yangfch3/mkpa9vcl1km2hv4uvkygjj3m/image_1bafbonhdkmunvt10s2a232b61g.png">
+<meta property="og:image" content="http://static.zybuluo.com/yangfch3/cqadi1c1y1oko5yjufygku54/image_1bafau0ji1nb01oea1h1012icqks13.png">
+<meta property="og:image" content="http://static.zybuluo.com/yangfch3/u6xpmwsuni6y75kkkteixe7z/image_1bafc7uglqo61ote1j521flct511t.png">
+<meta property="og:image" content="http://static.zybuluo.com/yangfch3/ebqehj53esh0opdhgb873q8o/image_1bafdkra71u6dotkkub17l8cpt2a.png">
+<meta property="og:image" content="http://static.zybuluo.com/yangfch3/c80337hz0ibfj8qfouqfkthw/image_1bafdn8011bb71ogq1eaecdo1o0a34.png">
+<meta property="og:image" content="http://static.zybuluo.com/yangfch3/aj7g136ex9a7sizpm210w7p9/image_1bafdmmadvrc19dqur71927q732n.png">
+<meta property="og:image" content="http://static.zybuluo.com/yangfch3/wxwyxkakjmqqr1luakis57s1/image_1bafetjs27d11udtiu94c11o279.png">
+<meta property="og:image" content="http://static.zybuluo.com/yangfch3/y34n1nb1b6gpb9yt3b4b0ui3/image_1bafhcotm12m338av3o15cj1nul13.png">
+<meta property="og:image" content="http://static.zybuluo.com/yangfch3/p5186vgoyogkpkecn921ugll/image_1bafhd8nsmj31vj71mcdjkjc831g.png">
+<meta property="og:image" content="http://static.zybuluo.com/yangfch3/n4d9u34113xwte420m2wasc4/image_1bafi8hrat54ob91c9l1fch14br9.png">
+<meta property="og:updated_time" content="2018-05-05T01:18:48.122Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Web 缓存及策略制定">
-<meta name="twitter:description" content="我们常常会注意到静态资源后面都跟着一串指纹码：     同时我们在进行网络请求分析时会遇到 Cache-Control、Last-Modified 等这些 Header 字段。 在冥冥中，我们知道这些肯定与缓存有着重大的关系。缓存机制中有哪些关键的东西在起作用，如何制定最优的 缓存-更新 机制就是本文需要研究的问题。">
-<meta name="twitter:image" content="http://static.zybuluo.com/yangfch3/8m3e3wnqpmxwhztq755quy1w/image_1b1c9hn2rcdv1jn7pav1gdtjs6m.png">
+<meta name="twitter:title" content="Web 排版中的 vertical-align">
+<meta name="twitter:description" content="如果你对 Web 排版中的 vertical-align 一直捉摸不透，那么这篇文章可能便是你一直想要寻找的资料了。">
+<meta name="twitter:image" content="http://static.zybuluo.com/yangfch3/mkpa9vcl1km2hv4uvkygjj3m/image_1bafbonhdkmunvt10s2a232b61g.png">
 
 
 
@@ -124,7 +126,7 @@
   };
 </script>
 
-  <title> Web 缓存及策略制定 | FuChee's blog </title>
+  <title> Web 排版中的 vertical-align | FuChee's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -306,7 +308,7 @@
             
             
               
-                Web 缓存及策略制定
+                Web 排版中的 vertical-align
               
             
           </h1>
@@ -318,8 +320,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-10-19T09:32:19+08:00" content="2017-10-19">
-              2017-10-19
+            <time itemprop="dateCreated" datetime="2018-05-05T09:13:14+08:00" content="2018-05-05">
+              2018-05-05
             </time>
           </span>
 
@@ -348,8 +350,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2017/10/19/HTTP-Cache/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/10/19/HTTP-Cache/" itemprop="commentsCount"></span>
+                <a href="/2018/05/05/vertical-align-and-web-typography/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/05/05/vertical-align-and-web-typography/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -372,152 +374,100 @@
       
 
       
-        <p>我们常常会注意到静态资源后面都跟着一串指纹码：<br>
-<img src="http://static.zybuluo.com/yangfch3/8m3e3wnqpmxwhztq755quy1w/image_1b1c9hn2rcdv1jn7pav1gdtjs6m.png" alt="image_1b1c9hn2rcdv1jn7pav1gdtjs6m.png-20.6kB"><br>
-<img src="http://static.zybuluo.com/yangfch3/kp4cmtg8o50i34lh501vlhf3/image_1b1c9gujm10snq8f947iv5t49.png" alt="image_1b1c9gujm10snq8f947iv5t49.png-28.4kB"><br>
-<img src="http://static.zybuluo.com/yangfch3/s3aubu6l1ylr6igytpuv18y6/image_1b1c9jtvr1aogmd0seg1o0714lu13.png" alt="image_1b1c9jtvr1aogmd0seg1o0714lu13.png-15.8kB"><br>
-<img src="http://static.zybuluo.com/yangfch3/44bhvo0c8c89lggd60uyyhqn/image_1b1c9of7qf6b1abfvmp1er12801g.png" alt="image_1b1c9of7qf6b1abfvmp1er12801g.png-17.2kB"></p>
-<p>同时我们在进行网络请求分析时会遇到 Cache-Control、Last-Modified 等这些 Header 字段。</p>
-<p>在冥冥中，我们知道这些肯定与缓存有着重大的关系。缓存机制中有哪些关键的东西在起作用，如何制定最优的 <strong>缓存-更新</strong> 机制就是本文需要研究的问题。</p>
+        <p>如果你对 Web 排版中的 <code>vertical-align</code> 一直捉摸不透，那么这篇文章可能便是你一直想要寻找的资料了。</p>
 <a id="more"></a>
-<h2 id="前言">前言</h2>
-<p>首先让我们来看一次经典的 <strong>请求-响应</strong> 过程，以 <a href="https://zhihu.com" target="_blank" rel="external">zhihu.com</a> 登录页的某个 JavaScript 资源为例：<br>
-<img src="http://static.zybuluo.com/yangfch3/0gotv3wpms8o77advh2x4jqn/image_1b1cacu1n1b4019s61jo816fj5ud1t.png" alt="image_1b1cacu1n1b4019s61jo816fj5ud1t.png-586.8kB"></p>
-<p>我们从这次连接中看到以下与缓存相关的 HTTP(s) 请求头/响应头：</p>
-<ul>
-<li>Request Header
+<h2 id="基本概念">基本概念</h2>
+<p><img src="http://static.zybuluo.com/yangfch3/mkpa9vcl1km2hv4uvkygjj3m/image_1bafbonhdkmunvt10s2a232b61g.png" alt="image_1bafbonhdkmunvt10s2a232b61g.png-23.9kB"></p>
+<center>浏览器中的大小写字母、中文混排</center>
+<h3 id="基线与行高">基线与行高</h3>
+<p>基线：<code>baseline</code><br>
+行高：<code>line-height</code></p>
+<p>为了表述的方便，我们首先回到小时候看看曾经使用过的拼音线格：<br>
+<img src="http://static.zybuluo.com/yangfch3/cqadi1c1y1oko5yjufygku54/image_1bafau0ji1nb01oea1h1012icqks13.png" alt="image_1bafau0ji1nb01oea1h1012icqks13.png-329.5kB"></p>
+<p>从上图我们基本就能明确基线与行高两个概念了：</p>
 <ol>
-<li>Cache-Control</li>
-<li>If-Modified-Since</li>
-<li>If-None-Match</li>
+<li>基线：多数字母排列的基准线</li>
+<li>段落中连续行的基线间的垂直距离称为行高（Line Height）或行距（Leading）</li>
 </ol>
-</li>
-<li>Response Header
-<ol>
-<li>Cache-Control（图上没有体现）</li>
-<li>Last-Modified</li>
-<li>ETag</li>
-</ol>
-</li>
-</ul>
-<p>一般，我们请求的缓存就是由上述 HTTP Header 进行<strong>校验</strong>与<strong>控制</strong>。是否需要缓存？缓存层级？缓存多久？缓存到期后如何处理？这些问题就是接下来的文章需要解决的。</p>
-<h2 id="etag-if-none-match">ETag &amp; If-None-Match</h2>
-<p>ETag 我们可以很形象地称之为<strong>验证令牌</strong>，这个令牌在<strong>缓存不符合我们的 Cache-Control 指定的规则</strong> 时起作用。</p>
-<p>ETag 由服务器生成，由 Response Header 携带传送给客户端进行保存，客户端请求 Request Header 通过 If-None-Match 携带缓存的 ETag 值给服务器进行校验。</p>
+<p>思考与扩展：当我们没有指定确定的行高时，浏览器给予行内元素的行高是多少？</p>
 <blockquote>
-<p>ETag 是 Response Header 的字段，If-None-Match 是 Request Header 的字段，因为二者功能协作且字段值一致，下面统一用 ETag 代替。</p>
-</blockquote>
-<p>假如我们有如下静态资源，请求细节如下：<br>
-<img src="http://static.zybuluo.com/yangfch3/95pdeafw683dqhtwj8ymhnpp/image_1b1cbv67c17de1kdb16rce9mtk2a.png" alt="image_1b1cbv67c17de1kdb16rce9mtk2a.png-18.4kB"></p>
-<p>现在过了 120 秒，浏览器又对该资源发起了请求。</p>
-<p>首先，浏览器会检查本地缓存并找到之前的响应，不幸的是，这个响应缓存的文件现在已经“过期”，不能直接使用。此时，浏览器可以直接发出新请求，获取新的完整响应，<strong>但是这样做效率较低，因为如果本地缓存已过期，但服务器上资源在此期间未被更改过，我们就没有理由再去下载一遍</strong>。</p>
-<p>这就是 ETag 头中指定的验证令牌所要解决的<em>问题</em><sup>1</sup>：服务器会生成并返回一个随机令牌，通常是文件内容的哈希值或者某个其他指纹码（具体实现细节由服务器决定）。客户端不必了解指纹码是如何生成的，只需要在下一个请求中将其（通过 If-None-Match 携带）发送给服务器：如果指纹码仍然一致，说明资源未被修改，我们就可以跳过下载，继续延长 Cache-Control（120s）。</p>
-<blockquote>
-<p>1：如果资源未被更改过，我们就没有理由再去下载与客户端缓存中已有的完全相同的资源。</p>
-</blockquote>
-<p>总结以上内容就是：</p>
 <ol>
-<li>ETag 在缓存过期（过了 Cache-Control 指定期限）之后起作用的</li>
-<li>ETag 在缓存过期后判定是对缓存<strong>续命</strong>还是<strong>更新</strong></li>
+<li>没有确定行高时，其 <code>line-height</code> 的值默认为 <code>normal</code></li>
+<li>对于没有使用行内元素包裹的文字（如：<code>&lt;div&gt;abc&lt;/div&gt;</code>），浏览器在底层的处理相当于为这些文字包上一层行内元素（相当于 <code>&lt;div&gt;&lt;span&gt;abc&lt;/span&gt;&lt;/div&gt;</code>）</li>
+<li>浏览器为行内元素设置的默认行高 <code>normal</code> 取值随着字体大小、字体类型的变化而变化</li>
 </ol>
-<h2 id="last-modified-if-modified-since">Last-Modified &amp; If-Modified-Since</h2>
-<p>其实在 ETag 出现之前，就有了 Last-Modified/If-Modified-Since 验证机制。使用资源的最近一次更新时间（Last-Modified）进行校验是最符合我们日常认知的，也是最容易想到的一种方式。</p>
-<blockquote>
-<p>Last-Modified 是 Response Header 的字段<br>
-If-Modified-Since 是 Request Header 的字段</p>
 </blockquote>
-<p>ETag 的出现是对 Last-Modified 机制的补充与严谨化。</p>
-<ul>
-<li>Last-Modified 标注的最后修改只能精确到秒级，如果某些文件在1秒钟以内，被修改多次的话，它将不能准确标注文件的修改时间</li>
-<li>如果某些文件会被定期生成，当有时内容并没有任何变化，但 Last-Modified 却改变了，导致文件没法使用缓存（而 ETag 是依据文件内容特征生成的指纹，能更精确地表示文件有无变化）</li>
-<li>有可能存在服务器没有准确获取文件修改时间，或者与代理服务器时间不一致等情形</li>
-</ul>
-<p>Last-Modified 与 ETag 一起使用时，服务器会<strong>优先验证 ETag</strong>，一致的情况下，才会继续比对 Last-Modified，最后才决定是否返回 304。</p>
-<h2 id="cache-control">Cache-Control</h2>
-<p><code>Cache-Control</code> 有一个比较特殊的点：Request Header 有此字段，Response Header 也有这个字段。</p>
-<h3 id="max-age-num">max-age=[num]</h3>
-<p>服务器返回头 Cache-Control 的 max-age 告诉客户端：<strong>此资源在客户端缓存时间为多久</strong>。</p>
-<p>而比较特殊的 max-age=0 则相当于告知客户端：<strong>此资源刻意缓存在客户端，但每次重新请求都应该向服务器请求校验</strong>。</p>
+<h3 id="x-height">x-height</h3>
+<p><code>x</code> 这个字母在排版中具有不俗的地位，下面来看看如何个不俗法。</p>
+<p><img src="http://static.zybuluo.com/yangfch3/u6xpmwsuni6y75kkkteixe7z/image_1bafc7uglqo61ote1j521flct511t.png" alt="image_1bafc7uglqo61ote1j521flct511t.png-30kB"></p>
+<p><code>x-height</code> 指的便是小写字母 <code>x</code> 字母的实际物理高度。为什么会选择 <code>x</code> 呢，可能是因为其良好的对称性、上下边缘平整才成为这个天选之子吧。</p>
+<p>这里为什么会莫名其妙地说起 <code>x-height</code> 这个概念呢？在前端有什么用呢？</p>
+<p>请继续往下阅读吧，可以预告一下：<code>x-height</code> 与我们今天的主角 <code>vertical-align</code> 有联系。</p>
+<h3 id="小写字母的-下沉">小写字母的“下沉”</h3>
+<p>首先上一段代码：<br>
+<img src="http://static.zybuluo.com/yangfch3/ebqehj53esh0opdhgb873q8o/image_1bafdkra71u6dotkkub17l8cpt2a.png" alt="image_1bafdkra71u6dotkkub17l8cpt2a.png-33.3kB"></p>
+<p>看看实际效果：<br>
+<img src="http://static.zybuluo.com/yangfch3/c80337hz0ibfj8qfouqfkthw/image_1bafdn8011bb71ogq1eaecdo1o0a34.png" alt="image_1bafdn8011bb71ogq1eaecdo1o0a34.png-31.3kB"></p>
+<p>然后我们来<strong>局部放大小写字母</strong>部分，通过对角线找到 <strong>行盒</strong> 的垂直中线（图中竖直方向中间的红线），与 <code>x</code> 的中心位置进行对比便能发现：<strong>行盒垂直方向的中线高于小写的 <code>x</code> 的中心点</strong>。<br>
+<img src="http://static.zybuluo.com/yangfch3/aj7g136ex9a7sizpm210w7p9/image_1bafdmmadvrc19dqur71927q732n.png" alt="image_1bafdmmadvrc19dqur71927q732n.png-142.9kB"></p>
+<p>这个情况，可以形象地记忆为小写字母的 <strong>下沉</strong>。</p>
+<h3 id="文本排版参考线">文本排版参考线</h3>
+<p><img src="http://static.zybuluo.com/yangfch3/wxwyxkakjmqqr1luakis57s1/image_1bafetjs27d11udtiu94c11o279.png" alt="image_1bafetjs27d11udtiu94c11o279.png-30.4kB"></p>
+<center>一图看懂</center>
+<h2 id="进阶">进阶</h2>
+<h3 id="关于网页中的图片">关于网页中的图片</h3>
+<p>图片做为网页中特殊的行内元素，但是图片又不是文字，为了更好阐述下文图文混排的知识，根据经验我做出如下阐述：</p>
 <ol>
-<li>服务器首次返回一个 max-age=0 的静态资源，客户端缓存到本地</li>
-<li>客户端需要重新请求此静态资源时，发现本地有缓存，但是缓存已过期（因为 max-age=0）</li>
-<li>客户端重新发送请求，携带 If-None-Match 头以及 max-age=0</li>
-<li>服务端将收到的 If-None-Match 与文件的 ETag 比对</li>
-<li>如果比对不一致，则下发静态资源，同时返回 Cache-Control 头和新的 ETag，客户端比对本地的 ETag 与返回的 ETag 后使用新的资源，并回到步骤 1</li>
-<li>如果比对一致，则不下发返回静态资源，同时返回 Cache-Control 头和没变的 ETag，客户端比对本地的 ETag 与返回的 ETag 后直接使用缓存</li>
+<li>图片的 <code>baseline</code>、<code>bottom</code> 可以认为位置相同，都是图片的底边位置</li>
+<li>图片的 <code>top</code> 可以认为是图片的上边位置</li>
+<li>图片不是文本，所以我们可以认为图片没有所谓的 <code>text-top</code>、<code>text-bottom</code>、<code>sub</code>、<code>sup</code> 概念</li>
 </ol>
-<h3 id="no-cache">no-cache</h3>
-<p>Response Header 的 no-cache 和 max-age=0 作用你可以将其等同起来。</p>
-<p><a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching#no-cacheno-store" target="_blank" rel="external">链接1</a><br>
-<a href="https://stackoverflow.com/questions/1046966/whats-the-difference-between-cache-control-max-age-0-and-no-cache" target="_blank" rel="external">链接2</a></p>
-<ol>
-<li>no-cache 不代表禁止客户端缓存</li>
-<li>no-cache 不是不缓存，而是不直接使用缓存（需要验证）</li>
-</ol>
+<h3 id="莫名出现的空白">莫名出现的空白</h3>
+<p>源码：<br>
+<img src="http://static.zybuluo.com/yangfch3/y34n1nb1b6gpb9yt3b4b0ui3/image_1bafhcotm12m338av3o15cj1nul13.png" alt="image_1bafhcotm12m338av3o15cj1nul13.png-25.9kB"></p>
+<p>效果：<br>
+<img src="http://static.zybuluo.com/yangfch3/p5186vgoyogkpkecn921ugll/image_1bafhd8nsmj31vj71mcdjkjc831g.png" alt="image_1bafhd8nsmj31vj71mcdjkjc831g.png-12.6kB"></p>
+<p>嗯，出现了莫名的空白，其实这也是我们经常遇到的问题，这个空白出现的原因是什么呢？</p>
 <blockquote>
-<p>I believe max-age=0 simply tells caches (and user agents) the response is stale from the get-go and so they SHOULD revalidate the response (eg. with the If-Not-Modified header) before using a cached copy, whereas, no-cache tells them they MUST revalidate before using a cached copy.</p>
+<p>想通这个问题很简单，你只要先假设图片的相邻处有文字，思考图片文字的对齐方案，单后再把文字去掉就能想通了。</p>
 </blockquote>
-<p><code>Cache-Control: max-age=0</code> 与 <code>Cache-Control: no-cache</code> 可能存在的不同点是：可能在点击浏览器的前进后退按钮时会存在差异。<code>Cache-Control: max-age=0</code> 可以直接使用，而 <code>Cache-Control: no-cache</code> 则会验证。</p>
-<p>还有一个问题时，在某些版本的浏览器下，客户端对 no-cache 与 no-store 的处理是一样的：都是直接不缓存。</p>
-<p>no-cache 在 Request Header 的作用则比较简单：告诉服务器，本地没有缓存或不使用缓存，你需要给我最新的文件。Chrome 下的强制刷新以及 Disable Cache 采取的就是在 Request Header 使用 no-cache。</p>
-<h3 id="no-store">no-store</h3>
-<p><code>Cache-Control: no-store</code> 直接禁止浏览器和所有中继缓存存储返回的任何版本的响应 - 例如：一个包含个人隐私数据或银行数据的响应。每次用户请求该资源时，都会向服务器发送一个请求，每次都会下载完整的响应。</p>
-<h3 id="public-private">public &amp; private</h3>
-<p>服务器返回的 Cache-Control Header 如果有 public 字段，则表示可以多级缓存（用户代理、CDN、服务提供商）。</p>
-<p>private 则表示单用户缓存，不允许任何中继缓存对其进行缓存 - 例如，用户浏览器可以缓存包含用户私人信息的 HTML 网页，但是中间服务商不能缓存。</p>
-<h2 id="实例：express-req-fresh-的判定机制">实例：Express req.fresh 的判定机制</h2>
-<p>Express 中 req.fresh 用于判定客户端的请求是否是“新鲜”的请求（而不是对已缓存资源的请求），只有当请求头的 <code>cache-control</code> 不等于 <code>no-cache</code> 并且满足以下任意一条才表示客户端的请求是“新鲜”的（即服务器需要提供新资源）：</p>
-<blockquote>
-<ul>
-<li>指定了 <code>if-modified-since</code> 请求头并且 <code>last-modified</code> 请求头等于或时间上早于 <code>modified</code> 响应头</li>
-<li><code>if-none-match</code> 请求头是 <code>*</code></li>
-<li><code>if-none-match</code> 请求头无法匹配响应头的 <code>etag</code></li>
-</ul>
-</blockquote>
-<h2 id="http-caching-最佳实践">HTTP Caching 最佳实践</h2>
-<p><img src="http://static.zybuluo.com/yangfch3/jwinkxrha3w4bkgq59kgr89f/image_1b1ciceslctp1ho2ib1rvf1evj2n.png" alt="image_1b1ciceslctp1ho2ib1rvf1evj2n.png-47.8kB"></p>
-<h2 id="缓存与频繁更新的矛盾">缓存与频繁更新的矛盾</h2>
-<p>有些资源是需要频繁更新的，但是我们又确实希望客户端对其进行缓存。此时我们就需要<strong>针对我们资源的特性制定不同的缓存策略与缓存级别</strong>，并使用<strong>资源指纹 URL</strong>搭配实现资源的随意更新。</p>
-<p>于是我们可以看回本文开始部分介绍的几个典型网站静态资源的指纹URL案例：</p>
+<p>值得注意的是这个空白只有在标准模式下渲染才会出现，在接近标准模式（HTML 4.0）、怪异模式（HTML 3.0、IE5-）下渲染不会有。</p>
+<p>那么我们如何消除这个空白呢？</p>
 <ol>
-<li>index.xxxxxxx.js</li>
-<li>index$xxxxxx.js</li>
-<li>index-xxxxxxx.js</li>
-<li>/index.js?x.x.x</li>
+<li>外层块盒设置 <code>font-size: 0</code></li>
+<li>外层块盒 <code>line-height</code> 设置得足够小（在 Chrome 下设置要小于 12px）</li>
 </ol>
-<p>上面的 <code>x</code> 即为指纹区，选择何种指纹视项目与团队规范而定。</p>
-<p><strong>指纹 URL + Cache-Control</strong> 实现缓存与更新的精细控制案例：<br>
-<img src="http://static.zybuluo.com/yangfch3/0achbqbncuy3hdfar6l5thm7/image_1b1cj198v4itmue1ishdsecbj34.png" alt="image_1b1cj198v4itmue1ishdsecbj34.png-29.7kB"></p>
-<p>分析一下上面的例子：</p>
-<ul>
-<li>HTML 被标记成 <code>no-cache</code>（或 <code>max-age=0</code>），这意味着浏览器在每次请求时都会重新验证文档，如果内容更改，会获取最新版本。同时，在 HTML 标记中，我们<strong>在 CSS 和 JavaScript 资源的网址中嵌入指纹码</strong>：如果这些文件的内容更改，网页的 HTML 也会随之更改，并将下载 HTML 响应的新副本。</li>
-<li>允许浏览器和中继缓存（例如 CDN）缓存 CSS，过期时间设置为 1 年。注意，我们可以放心地使用 1 年的“远期过期”，因为我们在文件名中嵌入了文件指纹码：如果 CSS 更新，网址也会随之更改。</li>
-<li>JavaScript 过期时间也设置为 1 年，但是被标记为 private，<strong>也许是因为包含了 CDN 不应缓存的一些用户私人数据</strong>。</li>
-<li>缓存图片时不包含版本或唯一指纹码（一般项目中也会包含指纹码），过期时间设置为 1 天。</li>
-</ul>
-<p>组合使用 <code>ETag</code>、<code>Cache-Control</code> 和唯一网址（指纹 URL），我们可以提供最佳的方案：<strong>较长的过期时间，控制可以缓存响应的位置，以及按需更新。</strong></p>
-<h2 id="注意点">注意点</h2>
-<ol>
-<li>
-<p>网址区分大小写</p>
-</li>
-<li>
-<p>除了文中提到的这些 Header 字段，服务器还可以自己制定与实现一些辅助缓存机制的字段。如：<code>X-Cache</code> 这样。</p>
-</li>
-<li>
-<p>如果在应用中使用 Webview 来获取和显示网页内容，可能需要提供额外的配置标志，以确保启用了 HTTP 缓存，并根据用途设置了合理的缓存大小，同时，确保缓存持久化。查看平台文档并确认您的设置！</p>
+<h3 id="合成行盒的各排版参考线">合成行盒的各排版参考线</h3>
+<p>合成行盒就是类似下面这种情况，简单点说便是图片文字混排的情况</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">span</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">span</span>&gt;</span>XYZ<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"xxx"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>经过测试，我们能得到以下结果：合成行盒各排版参考线情况<br>
+<img src="http://static.zybuluo.com/yangfch3/n4d9u34113xwte420m2wasc4/image_1bafi8hrat54ob91c9l1fch14br9.png" alt="image_1bafi8hrat54ob91c9l1fch14br9.png-110.1kB"></p>
 <blockquote>
-<p>例如在微信内 Webview 的缓存就有一些比较特殊的地方，具体可阅读开发文档。</p>
+<p>修正：图中的 <code>x-height</code> 应为 <strong>半<code>x-height</code></strong></p>
 </blockquote>
-</li>
-<li>
-<p>在很多情况下我们还会在响应 Header 内遇到 Expires 字段，这是 HTTP 1.0 时的标准，主要是为了兼容较为老旧的浏览器。在 HTTP 1.1 中定义了 Cache-Control 代替 Expires。</p>
-</li>
+<p>总结的几个原则：</p>
+<ol>
+<li>大部分排版参考线只由这里面字体最小的那部分确定</li>
+<li>大图能决定合成行盒的 <code>top</code></li>
 </ol>
+<h2 id="vertical-align-详解">vertical-align 详解</h2>
+<p>请认认真真地咀嚼下面的结论，遇到具体情境时再结合上文的手段进行分析，你就能得出正确的对齐手段。</p>
+<blockquote>
+<p><strong>baseline</strong>：把当前盒的基线与父盒的基线对齐。如果该盒没有基线（如图片），就将底部外边距的边界和父盒的基线对齐<br>
+<strong>sub</strong>：把当前盒的基线降低到合适的位置作为父盒的下标（该值不影响该元素文本的字体大小）<br>
+<strong>super</strong>：把当前盒的基线提升到合适的位置作为父盒的上标（该值不影响该元素文本的字体大小）<br>
+<strong>text-top</strong>：把当前盒的 top 和**父盒的内容区的 top（即父盒的 text-top）<strong>对齐<br>
+<strong>text-bottom</strong>：把当前盒的 bottom 和</strong>父盒的内容区的 bottom （即父盒的 text-bottom）<strong>对齐<br>
+<strong>middle</strong>：把当前盒的垂直中心和父盒的基线加上父盒的半 x-height 对齐<br>
+<strong>top</strong>：把当前盒的 top 与</strong>行盒的 top（父盒下合成行盒的 top）<strong>对齐<br>
+<strong>bottom</strong>：把当前盒的 bottom 与</strong>行盒的 bottom（父盒下合成行盒的 bottom）**对齐<br>
+<strong><code>&lt;percentage&gt;</code></strong>：把当前盒提升（正值）或者降低（负值）这个距离，百分比是相对元素自身 line-height 计算。当值为 0% 时等同于 baseline。<br>
+<strong><code>&lt;length&gt;</code></strong>：把当前盒提升（正值）或者降低（负值）这个距离。当值为 0 时等同于 baseline。（CSS2）</p>
+</blockquote>
 <hr>
-<p>参考资料：<br>
-<a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching" target="_blank" rel="external">Google: Web Fundamentals - HTTP Caching</a><br>
-<a href="http://stackoverflow.com/questions/1046966/whats-the-difference-between-cache-control-max-age-0-and-no-cache" target="_blank" rel="external">What’s the difference between Cache-Control: max-age=0 and no-cache?</a></p>
+<h2 id="附录">附录</h2>
+<p>一个用于测试的简单的、经典的页面：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-cmn-Hans"</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"initial-scale=1,maximum-scale=1,user-scalable=no,width=device-width,shrink-to-fit=no"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"x-ua-compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"renderer"</span> <span class="attr">content</span>=<span class="string">"webkit"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>vertical-align demo<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="comment">&lt;!--</span></div><div class="line"><span class="comment">几个可以尝试的扩展练习：</span></div><div class="line"><span class="comment">1. 尝试先将图片确定为某个 vertical-align 值，再来变更两个 span 的 vertical-align 值，查看效果，分析原理</span></div><div class="line"><span class="comment">2. 尝试随意地为两个 span 和一个 img 分配 vertical-align 值，查看效果，分析原理</span></div><div class="line"><span class="comment">3. 如果 span 内文字多行会怎么样？</span></div><div class="line"><span class="comment">--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"background-color:#E5EDFF;"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"background-color:#fff;font-size: 40px;"</span>&gt;</span>ZXXXxx<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"https://dummyimage.com/300x200/000/fff"</span> <span class="attr">style</span>=<span class="string">"width: 300px; height: 200px;"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"background-color:#fff; font-size: 23px;"</span>&gt;</span>zxxf<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">hr</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!--</span></div><div class="line"><span class="comment">可以尝试的扩展练习：为最外层 div 内的各个元素随机设置 vertical-align，查看效果，分析原理</span></div><div class="line"><span class="comment">--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"background-color: #ccc"</span>&gt;</span>zxxxf<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"background-color:#E5EDFF; display: inline-block"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"background-color:#fff; font-size: 40px;"</span>&gt;</span>ZXXXxx<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"https://dummyimage.com/300x200/000/fff"</span> <span class="attr">style</span>=<span class="string">"width: 300px; height: 200px;"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"background-color:#fff; font-size: 23px;"</span>&gt;</span>zxxf<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
 
       
     </div>
@@ -546,8 +496,6 @@ If-Modified-Since 是 Request Header 的字段</p>
           
             <a href="/tags/Web/" rel="tag">#Web</a>
           
-            <a href="/tags/HTTP/" rel="tag">#HTTP</a>
-          
         </div>
       
 
@@ -555,17 +503,13 @@ If-Modified-Since 是 Request Header 的字段</p>
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/04/browser-core-and-engine/" rel="next" title="浏览器内核、引擎、页面呈现原理及其优化">
-                <i class="fa fa-chevron-left"></i> 浏览器内核、引擎、页面呈现原理及其优化
+              <a href="/2018/04/22/log4js-with-pm2/" rel="next" title="pm2 与 log4js 混用指南">
+                <i class="fa fa-chevron-left"></i> pm2 与 log4js 混用指南
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/11/05/SOLID/" rel="prev" title="细说 S.O.L.I.D">
-                细说 S.O.L.I.D <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -741,7 +685,7 @@ If-Modified-Since 是 Request Header 的字段</p>
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#etag-if-none-match"><span class="nav-number">2.</span> <span class="nav-text">ETag & If-None-Match</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#last-modified-if-modified-since"><span class="nav-number">3.</span> <span class="nav-text">Last-Modified & If-Modified-Since</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cache-control"><span class="nav-number">4.</span> <span class="nav-text">Cache-Control</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#max-age-num"><span class="nav-number">4.1.</span> <span class="nav-text">max-age=[num]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#no-cache"><span class="nav-number">4.2.</span> <span class="nav-text">no-cache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#no-store"><span class="nav-number">4.3.</span> <span class="nav-text">no-store</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#public-private"><span class="nav-number">4.4.</span> <span class="nav-text">public & private</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例：express-req-fresh-的判定机制"><span class="nav-number">5.</span> <span class="nav-text">实例：Express req.fresh 的判定机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http-caching-最佳实践"><span class="nav-number">6.</span> <span class="nav-text">HTTP Caching 最佳实践</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存与频繁更新的矛盾"><span class="nav-number">7.</span> <span class="nav-text">缓存与频繁更新的矛盾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意点"><span class="nav-number">8.</span> <span class="nav-text">注意点</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基线与行高"><span class="nav-number">1.1.</span> <span class="nav-text">基线与行高</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#x-height"><span class="nav-number">1.2.</span> <span class="nav-text">x-height</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小写字母的-下沉"><span class="nav-number">1.3.</span> <span class="nav-text">小写字母的“下沉”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文本排版参考线"><span class="nav-number">1.4.</span> <span class="nav-text">文本排版参考线</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进阶"><span class="nav-number">2.</span> <span class="nav-text">进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于网页中的图片"><span class="nav-number">2.1.</span> <span class="nav-text">关于网页中的图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#莫名出现的空白"><span class="nav-number">2.2.</span> <span class="nav-text">莫名出现的空白</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#合成行盒的各排版参考线"><span class="nav-number">2.3.</span> <span class="nav-text">合成行盒的各排版参考线</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vertical-align-详解"><span class="nav-number">3.</span> <span class="nav-text">vertical-align 详解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附录"><span class="nav-number">4.</span> <span class="nav-text">附录</span></a></li></ol></div>
             
           </div>
         </section>
@@ -868,9 +812,9 @@ If-Modified-Since 是 Request Header 的字段</p>
 
     <script type="text/javascript">
       var disqus_shortname = 'yangfch3-blog';
-      var disqus_identifier = '2017/10/19/HTTP-Cache/';
-      var disqus_title = 'Web 缓存及策略制定';
-      var disqus_url = 'http://blog.yangfch3.com/2017/10/19/HTTP-Cache/';
+      var disqus_identifier = '2018/05/05/vertical-align-and-web-typography/';
+      var disqus_title = 'Web 排版中的 vertical-align';
+      var disqus_url = 'http://blog.yangfch3.com/2018/05/05/vertical-align-and-web-typography/';
 
       function run_disqus_script(disqus_script){
         var dsq = document.createElement('script');
