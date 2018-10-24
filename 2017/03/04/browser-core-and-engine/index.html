@@ -93,6 +93,7 @@
 <meta property="og:url" content="http://blog.yangfch3.com/2017/03/04/browser-core-and-engine/index.html">
 <meta property="og:site_name" content="FuChee&#39;s blog">
 <meta property="og:description" content="介绍浏览器内核、JavaScript 引擎以及页面呈现原理等基础知识，同时根据原理提出页面呈现优化方案。">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/ob8y6inhvvmg6rl9z4vn43fq/image_1ba5aftnnm7i11t8kl716c2164o9.png">
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/hfa6bzlsczzalvk5t89aa56f/image_1ba5an0vmfsn1kb928a1lv8vkpm.png">
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/brh4juu5r4r8f7oh9jrekcle/image_1ba7m6adr1h52bm2mblup214t59.png">
@@ -105,7 +106,7 @@
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/xnq7wto8jihkkkr6yhfiuppx/image_1ba7qso561sv3ep6lur1civ1vba13.png">
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/yii0ycjbnmixc2hzgt87w064/image_1ba7r0k4u12du17j819kkvcqgfv1t.png">
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/akltusf3gvtzafsrg212ot82/image_1ba7r0cuochpk331s6810jq1t8n1g.png">
-<meta property="og:updated_time" content="2018-10-21T08:50:40.928Z">
+<meta property="og:updated_time" content="2018-10-24T06:40:46.780Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浏览器内核、引擎、页面呈现原理及其优化">
 <meta name="twitter:description" content="介绍浏览器内核、JavaScript 引擎以及页面呈现原理等基础知识，同时根据原理提出页面呈现优化方案。">
@@ -520,18 +521,20 @@
 </li>
 </ol>
 <blockquote>
-<p><strong>在 Chrome 开发者工具下 Timeline 面板的 <code>Parse HTML</code> 阶段对应着 DOM 树的构建</strong>。</p>
+<p><strong>在 Chrome 开发者工具下 Timeline 面板的 <code>Parse HTML</code> 阶段对应着 DOM 树的构建</strong>。<br>
+<br></p>
 </blockquote>
-<br>
-扩展阅读：[从Chrome源码看浏览器如何构建DOM树
-](https://zhuanlan.zhihu.com/p/24911872?refer=dreawer)
-> 留意这篇文章的这些点：
->
-> 1. DOM 构建时对 DOCType 处理
-> 2. DOCType 的不同或漏缺带来的文档解析模式（怪异模式、有限怪异模式、标准模式）的影响
-> 3. 处理开标签与闭标签的压栈、弹栈处理
-> 4. Chromium 对待自定义标签的处理
-> 5. JavaScript 方法查找 DOM 的过程，使用 ID、类名、复杂选择器查找 DOM 的对比
+<p>扩展阅读：<a href="https://zhuanlan.zhihu.com/p/24911872?refer=dreawer" target="_blank" rel="external">从Chrome源码看浏览器如何构建DOM树</a></p>
+<blockquote>
+<p>留意这篇文章的这些点：</p>
+<ol>
+<li>DOM 构建时对 DOCType 处理</li>
+<li>DOCType 的不同或漏缺带来的文档解析模式（怪异模式、有限怪异模式、标准模式）的影响</li>
+<li>处理开标签与闭标签的压栈、弹栈处理</li>
+<li>Chromium 对待自定义标签的处理</li>
+<li>JavaScript 方法查找 DOM 的过程，使用 ID、类名、复杂选择器查找 DOM 的对比</li>
+</ol>
+</blockquote>
 <h3 id="六部曲之-cssom-树的构建">六部曲之 CSSOM 树的构建</h3>
 <p>CSSOM 树的构建 “原料” 的来源有：<strong>外部 CSS 文件、内部样式、内联样式</strong>。</p>
 <p>CSSOM 树的构建其实是一个 <strong>样式的重新计算</strong> 的过程，为什么是重新计算呢？</p>
@@ -891,7 +894,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -899,7 +902,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -908,7 +911,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

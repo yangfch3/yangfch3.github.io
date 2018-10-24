@@ -93,12 +93,13 @@
 <meta property="og:url" content="http://blog.yangfch3.com/2017/11/05/SOLID/index.html">
 <meta property="og:site_name" content="FuChee&#39;s blog">
 <meta property="og:description" content="S.O.L.I.D 五原则（以下简称五原则）：  单一功能原则 开放封闭原则 里氏替换原则 接口隔离原则 依赖反转原则。">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/1vhmouqgjzw983ftbiuqlyoi/image_1bqcv642t1bj01a041g0udcae4l9.png">
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/1dl9j3ppshabajdnq3ujua8k/image_1bu3f0pemstn1htf3bl1v9l157719.png">
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/fhc0rg3c34qz6utayxdxgdsx/image_1bu4tvefb1bf415tk15pf1ufd18eq1m.png">
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/op876brznpgc56yawj4dsu1f/image_1bu4tvpgf1nfi2giv6bqjd1apb23.png">
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/dmo4sdqgvlw6uaa0a1eljgjm/image_1bu57m1gtbj8122q11etnn75gm2g.png">
-<meta property="og:updated_time" content="2018-10-21T08:50:40.916Z">
+<meta property="og:updated_time" content="2018-04-24T03:42:54.778Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="细说 S.O.L.I.D">
 <meta name="twitter:description" content="S.O.L.I.D 五原则（以下简称五原则）：  单一功能原则 开放封闭原则 里氏替换原则 接口隔离原则 依赖反转原则。">
@@ -436,7 +437,7 @@
 <li>解耦，增加弹性</li>
 </ol>
 <h3 id="实例">实例</h3>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Not Good</span></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 不难预料，将来可能支持除现金之外的收款方式</div><div class="line"> * 这里直接写死成 acceptCash</div><div class="line"> */</div><div class="line">void checkOut(Receipt receipt) &#123;</div><div class="line">  Money <span class="keyword">total</span> = Money.zero;</div><div class="line">  <span class="keyword">for</span> (item : items) &#123;</div><div class="line">    <span class="keyword">total</span> += item.getPrice();</div><div class="line">    receipt.addItem(item);</div><div class="line">  &#125;</div><div class="line">  Payment p = acceptCash(<span class="keyword">total</span>);</div><div class="line">  receipt.addPayment(p);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 将来需要新增一种收款方式，可能会被改成这样</span></div><div class="line">void checkOut(Receipt receipt) &#123;</div><div class="line">  Money <span class="keyword">total</span> = Money.zero;</div><div class="line">  <span class="keyword">for</span> (item : items) &#123;</div><div class="line">    <span class="keyword">total</span> += item.getPrice();</div><div class="line">    receipt.addItem(item);</div><div class="line">  &#125;</div><div class="line">  Payment p;</div><div class="line">  <span class="keyword">if</span> (credit)</div><div class="line">    p = acceptCredit(<span class="keyword">total</span>);</div><div class="line">  <span class="keyword">else</span></div><div class="line">    p = acceptCash(<span class="keyword">total</span>);</div><div class="line">  receipt.addPayment(p);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Not Good</span></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * 不难预料，将来可能支持除现金之外的收款方式</span></div><div class="line"><span class="comment"> * 这里直接写死成 acceptCash</span></div><div class="line"><span class="comment"> */</span></div><div class="line">void checkOut(Receipt receipt) &#123;</div><div class="line">  Money <span class="keyword">total</span> = Money.zero;</div><div class="line">  <span class="keyword">for</span> (item : items) &#123;</div><div class="line">    <span class="keyword">total</span> += item.getPrice();</div><div class="line">    receipt.addItem(item);</div><div class="line">  &#125;</div><div class="line">  Payment p = acceptCash(<span class="keyword">total</span>);</div><div class="line">  receipt.addPayment(p);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 将来需要新增一种收款方式，可能会被改成这样</span></div><div class="line">void checkOut(Receipt receipt) &#123;</div><div class="line">  Money <span class="keyword">total</span> = Money.zero;</div><div class="line">  <span class="keyword">for</span> (item : items) &#123;</div><div class="line">    <span class="keyword">total</span> += item.getPrice();</div><div class="line">    receipt.addItem(item);</div><div class="line">  &#125;</div><div class="line">  Payment p;</div><div class="line">  <span class="keyword">if</span> (credit)</div><div class="line">    p = acceptCredit(<span class="keyword">total</span>);</div><div class="line">  <span class="keyword">else</span></div><div class="line">    p = acceptCash(<span class="keyword">total</span>);</div><div class="line">  receipt.addPayment(p);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Good</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">PaymentMethod</span> &#123;<span class="function"><span class="keyword">void</span> <span class="title">acceptPayment</span>(<span class="params">Money total</span>)</span>;&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">checkOut</span>(<span class="params">Receipt receipt, PaymentMethod pm</span>) </span>&#123;</div><div class="line">  Money total = Money.zero;</div><div class="line">  <span class="keyword">for</span> (item : items) &#123;</div><div class="line">    total += item.getPrice();</div><div class="line">    receipt.addItem(item);</div><div class="line">  &#125;</div><div class="line">  Payment p = pm.acceptPayment(total);</div><div class="line">  receipt.addPayment(p);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <hr>
 <h2 id="里氏替换原则-lsp">里氏替换原则 - LSP</h2>
@@ -652,7 +653,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -660,7 +661,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -669,7 +670,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
