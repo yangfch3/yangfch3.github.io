@@ -344,7 +344,6 @@
 
       <section class="site-overview sidebar-panel  sidebar-panel-active ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img src="http://ce.sysu.edu.cn/dist/images/yangfch3_shareImg.JPG" style="width: 250px; height: 250px; display: none">
           <img class="site-author-image" itemprop="image"
                src="https://avatars2.githubusercontent.com/u/10143583?v=3&s=460"
                alt="FuChee" />
@@ -578,10 +577,13 @@
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
       }
 
-      run_disqus_script('count.js');
-      
+      if (window.innerWidth > 768) {
+        run_disqus_script('count.js');
+        
+      }
     </script>
   
+
 
 
 
