@@ -3,7 +3,7 @@
   
     
     <entry>
-      <title><![CDATA[【译】Node.js的事件循环（Event loop）、定时器（Timers）和 process.nextTick()]]></title>
+      <title><![CDATA[【译】Node.js的事件循环（Event Loop）、定时器（Timers）和 process.nextTick()]]></title>
       <url>/2018/11/01/event-loop-timers-and-nexttick-cn/</url>
       <content type="html"><![CDATA[<p>翻译自 Node.js 官方文档：<a href="https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/" target="_blank" rel="external">The Node.js Event Loop, Timers, and process.nextTick()</a></p>
 <a id="more"></a>
