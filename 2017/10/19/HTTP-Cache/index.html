@@ -102,7 +102,7 @@
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/95pdeafw683dqhtwj8ymhnpp/image_1b1cbv67c17de1kdb16rce9mtk2a.png">
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/jwinkxrha3w4bkgq59kgr89f/image_1b1ciceslctp1ho2ib1rvf1evj2n.png">
 <meta property="og:image" content="http://static.zybuluo.com/yangfch3/0achbqbncuy3hdfar6l5thm7/image_1b1cj198v4itmue1ishdsecbj34.png">
-<meta property="og:updated_time" content="2018-11-01T02:59:28.884Z">
+<meta property="og:updated_time" content="2018-11-04T10:09:53.648Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Web 缓存及策略制定">
 <meta name="twitter:description" content="我们常常会注意到静态资源后面都跟着一串指纹码：     同时我们在进行网络请求分析时会遇到 Cache-Control、Last-Modified 等这些 Header 字段。 在冥冥中，我们知道这些肯定与缓存有着重大的关系。缓存机制中有哪些关键的东西在起作用，如何制定最优的 缓存-更新 机制就是本文需要研究的问题。">
@@ -381,7 +381,7 @@
 <p>在冥冥中，我们知道这些肯定与缓存有着重大的关系。缓存机制中有哪些关键的东西在起作用，如何制定最优的 <strong>缓存-更新</strong> 机制就是本文需要研究的问题。</p>
 <a id="more"></a>
 <h2 id="前言">前言</h2>
-<p>首先让我们来看一次经典的 <strong>请求-响应</strong> 过程，以 <a href="https://zhihu.com" target="_blank" rel="external">zhihu.com</a> 登录页的某个 JavaScript 资源为例：<br>
+<p>首先让我们来看一次经典的 <strong>请求-响应</strong> 过程，以 <a href="https://zhihu.com" target="_blank" rel="noopener">zhihu.com</a> 登录页的某个 JavaScript 资源为例：<br>
 <img src="http://static.zybuluo.com/yangfch3/0gotv3wpms8o77advh2x4jqn/image_1b1cacu1n1b4019s61jo816fj5ud1t.png" alt="image_1b1cacu1n1b4019s61jo816fj5ud1t.png-586.8kB"></p>
 <p>我们从这次连接中看到以下与缓存相关的 HTTP(s) 请求头/响应头：</p>
 <ul>
@@ -448,8 +448,8 @@ If-Modified-Since 是 Request Header 的字段</p>
 </ol>
 <h3 id="no-cache">no-cache</h3>
 <p>Response Header 的 no-cache 和 max-age=0 作用你可以将其等同起来。</p>
-<p><a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching#no-cacheno-store" target="_blank" rel="external">链接1</a><br>
-<a href="https://stackoverflow.com/questions/1046966/whats-the-difference-between-cache-control-max-age-0-and-no-cache" target="_blank" rel="external">链接2</a></p>
+<p><a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching#no-cacheno-store" target="_blank" rel="noopener">链接1</a><br>
+<a href="https://stackoverflow.com/questions/1046966/whats-the-difference-between-cache-control-max-age-0-and-no-cache" target="_blank" rel="noopener">链接2</a></p>
 <ol>
 <li>no-cache 不代表禁止客户端缓存</li>
 <li>no-cache 不是不缓存，而是不直接使用缓存（需要验证）</li>
@@ -516,8 +516,8 @@ If-Modified-Since 是 Request Header 的字段</p>
 </ol>
 <hr>
 <p>参考资料：<br>
-<a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching" target="_blank" rel="external">Google: Web Fundamentals - HTTP Caching</a><br>
-<a href="http://stackoverflow.com/questions/1046966/whats-the-difference-between-cache-control-max-age-0-and-no-cache" target="_blank" rel="external">What’s the difference between Cache-Control: max-age=0 and no-cache?</a></p>
+<a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching" target="_blank" rel="noopener">Google: Web Fundamentals - HTTP Caching</a><br>
+<a href="http://stackoverflow.com/questions/1046966/whats-the-difference-between-cache-control-max-age-0-and-no-cache" target="_blank" rel="noopener">What’s the difference between Cache-Control: max-age=0 and no-cache?</a></p>
 
       
     </div>
@@ -663,7 +663,7 @@ If-Modified-Since 是 Request Header 的字段</p>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -671,7 +671,7 @@ If-Modified-Since 是 Request Header 的字段</p>
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -680,7 +680,7 @@ If-Modified-Since 是 Request Header 的字段</p>
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -763,7 +763,7 @@ If-Modified-Since 是 Request Header 的字段</p>
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#etag-if-none-match"><span class="nav-number">2.</span> <span class="nav-text">ETag & If-None-Match</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#last-modified-if-modified-since"><span class="nav-number">3.</span> <span class="nav-text">Last-Modified & If-Modified-Since</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cache-control"><span class="nav-number">4.</span> <span class="nav-text">Cache-Control</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#max-age-num"><span class="nav-number">4.1.</span> <span class="nav-text">max-age=[num]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#no-cache"><span class="nav-number">4.2.</span> <span class="nav-text">no-cache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#no-store"><span class="nav-number">4.3.</span> <span class="nav-text">no-store</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#public-private"><span class="nav-number">4.4.</span> <span class="nav-text">public & private</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例：express-req-fresh-的判定机制"><span class="nav-number">5.</span> <span class="nav-text">实例：Express req.fresh 的判定机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http-caching-最佳实践"><span class="nav-number">6.</span> <span class="nav-text">HTTP Caching 最佳实践</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存与频繁更新的矛盾"><span class="nav-number">7.</span> <span class="nav-text">缓存与频繁更新的矛盾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意点"><span class="nav-number">8.</span> <span class="nav-text">注意点</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#etag-if-none-match"><span class="nav-number">2.</span> <span class="nav-text">ETag &amp; If-None-Match</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#last-modified-if-modified-since"><span class="nav-number">3.</span> <span class="nav-text">Last-Modified &amp; If-Modified-Since</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cache-control"><span class="nav-number">4.</span> <span class="nav-text">Cache-Control</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#max-age-num"><span class="nav-number">4.1.</span> <span class="nav-text">max-age=[num]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#no-cache"><span class="nav-number">4.2.</span> <span class="nav-text">no-cache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#no-store"><span class="nav-number">4.3.</span> <span class="nav-text">no-store</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#public-private"><span class="nav-number">4.4.</span> <span class="nav-text">public &amp; private</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例：express-req-fresh-的判定机制"><span class="nav-number">5.</span> <span class="nav-text">实例：Express req.fresh 的判定机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http-caching-最佳实践"><span class="nav-number">6.</span> <span class="nav-text">HTTP Caching 最佳实践</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存与频繁更新的矛盾"><span class="nav-number">7.</span> <span class="nav-text">缓存与频繁更新的矛盾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意点"><span class="nav-number">8.</span> <span class="nav-text">注意点</span></a></li></ol></div>
             
           </div>
         </section>

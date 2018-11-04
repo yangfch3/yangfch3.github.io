@@ -298,6 +298,129 @@
             
               
                 
+                <a class="post-title-link" href="/2018/11/04/err-handling-in-nodejs-cn/" itemprop="url">
+                  【译】Node.js 中的错误处理
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-11-04T18:11:31+08:00" content="2018-11-04">
+              2018-11-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2018/11/04/err-handling-in-nodejs-cn/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/11/04/err-handling-in-nodejs-cn/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>错误处理是 <code>Node.js</code>/<code>JavaScript</code> 编程中我们常常忽视的一环，即使有错误处理的意识，也很容易因为没有指导原则的无绪错误处理导致我们的代码反而变得臃肿混乱。</p>
+<p>原文 <a href="https://www.joyent.com/node-js/production/design/errors" target="_blank" rel="noopener">Error Handling in Node.js</a> 是笔者目前为止看过的对 Node.js 错误处理最系统、最详尽的叙述，下面是对这篇文章的翻译。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2018/11/04/err-handling-in-nodejs-cn/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/11/01/event-loop-timers-and-nexttick-cn/" itemprop="url">
                   【译】Node.js的事件循环（Event Loop）、定时器（Timers）和 process.nextTick()
                 </a>
@@ -367,7 +490,7 @@
 
       
         
-          <p>翻译自 Node.js 官方文档：<a href="https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/" target="_blank" rel="external">The Node.js Event Loop, Timers, and process.nextTick()</a></p>
+          <p>翻译自 Node.js 官方文档：<a href="https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/" target="_blank" rel="noopener">The Node.js Event Loop, Timers, and process.nextTick()</a></p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2018/11/01/event-loop-timers-and-nexttick-cn/#more" rel="contents">
               阅读全文 &raquo;
@@ -490,8 +613,8 @@
       
         
           <p>微信小游戏是运行在微信环境下的类 HTML5 游戏，可以使用诸如 Laya, cocos2d, egret 等 HTML5 游戏引擎来进行开发。笔者最近使用 egret engine（白鹭引擎）开发了两款微信小游戏，一款单机，另一款支持联机对战，下文是在这两个项目中使用 egret 总结出的个人最佳实践。</p>
-<img src="/2018/10/24/wx-minigame-dev-using-egret/ctg.jpg" alt="插糖果" title="插糖果">
-<img src="/2018/10/24/wx-minigame-dev-using-egret/tty.jpg" alt="来追我鸭" title="来追我鸭">
+<img src="/2018/10/24/wx-minigame-dev-using-egret/ctg.jpg" title="插糖果">
+<img src="/2018/10/24/wx-minigame-dev-using-egret/tty.jpg" title="来追我鸭">
           <div class="post-more-link text-center">
             <a class="btn" href="/2018/10/24/wx-minigame-dev-using-egret/#more" rel="contents">
               阅读全文 &raquo;
@@ -737,7 +860,7 @@
         
           <p>我相信你是在使用 <code>pm2</code> 和 <code>log4js</code> 中踩到了坑才会搜素到这篇文章，我便假定你已经对二者都有了基本的了解，遂不再赘述二者的介绍。</p>
 <p><code>pm2</code> 在使用 <code>cluster</code> 模式部署应用时，服务都通过 <code>worker</code> 进程提供，<code>pm2</code> 做为 <code>master</code> 进行监控管理。</p>
-<img src="/2018/04/22/log4js-with-pm2/pm2.png" alt="pm2" title="pm2">
+<img src="/2018/04/22/log4js-with-pm2/pm2.png" title="pm2">
 <p>由于存在多个 <code>worker</code> 进程，那么我们在使用 <code>log4js</code> 进行日志记录时会有下列疑问：</p>
 <ol>
 <li>多个 <code>worker</code> 进程能否正常写入同一个日志文件</li>
@@ -1244,7 +1367,7 @@
       
         
           
-            <p>受限于以前知识深度与广度，博客旧文章存在诸多谬误，在此为以前传播过错误的知识致歉。如果你是通过搜索引擎或其他文章的引用来到本站进入了 404 页面，而你又对已经删除的文章内容感兴趣，你可以与我联系（yangfch3#<a href="http://gmail.com" target="_blank" rel="external">gmail.com</a>）索要旧稿，我会修正旧稿错误后回复给你。</p>
+            <p>受限于以前知识深度与广度，博客旧文章存在诸多谬误，在此为以前传播过错误的知识致歉。如果你是通过搜索引擎或其他文章的引用来到本站进入了 404 页面，而你又对已经删除的文章内容感兴趣，你可以与我联系（yangfch3#<a href="http://gmail.com" target="_blank" rel="noopener">gmail.com</a>）索要旧稿，我会修正旧稿错误后回复给你。</p>
 
           
         
@@ -1314,7 +1437,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -1322,7 +1445,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1331,7 +1454,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
