@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Web,排版," />
+  <meta name="keywords" content="HTML5,游戏,微信小游戏,微信开发," />
 
 
 
@@ -86,29 +86,21 @@
 
 
 
-<meta name="description" content="如果你对 Web 排版中的 vertical-align 一直捉摸不透，那么这篇文章可能便是你一直想要寻找的资料了。">
-<meta name="keywords" content="Web,排版">
+<meta name="description" content="在之前的文章 使用白鹭引擎开发微信小游戏的一些流程改进 中我介绍了基于白鹭引擎在开发微信小游戏中流程的一些改进方案，本文将介绍在开发 HTML5 游戏中遇到的一些切实的问题与解决方案。">
+<meta name="keywords" content="HTML5,游戏,微信小游戏,微信开发">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Web 排版中的 vertical-align">
-<meta property="og:url" content="http://blog.yangfch3.com/2018/05/05/vertical-align-and-web-typography/index.html">
+<meta property="og:title" content="白鹭引擎游戏开发笔记">
+<meta property="og:url" content="http://blog.yangfch3.com/2018/11/21/egret-dev-note1/index.html">
 <meta property="og:site_name" content="FuChee&#39;s blog">
-<meta property="og:description" content="如果你对 Web 排版中的 vertical-align 一直捉摸不透，那么这篇文章可能便是你一直想要寻找的资料了。">
+<meta property="og:description" content="在之前的文章 使用白鹭引擎开发微信小游戏的一些流程改进 中我介绍了基于白鹭引擎在开发微信小游戏中流程的一些改进方案，本文将介绍在开发 HTML5 游戏中遇到的一些切实的问题与解决方案。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://static.zybuluo.com/yangfch3/mkpa9vcl1km2hv4uvkygjj3m/image_1bafbonhdkmunvt10s2a232b61g.png">
-<meta property="og:image" content="http://static.zybuluo.com/yangfch3/cqadi1c1y1oko5yjufygku54/image_1bafau0ji1nb01oea1h1012icqks13.png">
-<meta property="og:image" content="http://static.zybuluo.com/yangfch3/u6xpmwsuni6y75kkkteixe7z/image_1bafc7uglqo61ote1j521flct511t.png">
-<meta property="og:image" content="http://static.zybuluo.com/yangfch3/ebqehj53esh0opdhgb873q8o/image_1bafdkra71u6dotkkub17l8cpt2a.png">
-<meta property="og:image" content="http://static.zybuluo.com/yangfch3/c80337hz0ibfj8qfouqfkthw/image_1bafdn8011bb71ogq1eaecdo1o0a34.png">
-<meta property="og:image" content="http://static.zybuluo.com/yangfch3/aj7g136ex9a7sizpm210w7p9/image_1bafdmmadvrc19dqur71927q732n.png">
-<meta property="og:image" content="http://static.zybuluo.com/yangfch3/wxwyxkakjmqqr1luakis57s1/image_1bafetjs27d11udtiu94c11o279.png">
-<meta property="og:image" content="http://static.zybuluo.com/yangfch3/y34n1nb1b6gpb9yt3b4b0ui3/image_1bafhcotm12m338av3o15cj1nul13.png">
-<meta property="og:image" content="http://static.zybuluo.com/yangfch3/p5186vgoyogkpkecn921ugll/image_1bafhd8nsmj31vj71mcdjkjc831g.png">
-<meta property="og:image" content="http://static.zybuluo.com/yangfch3/n4d9u34113xwte420m2wasc4/image_1bafi8hrat54ob91c9l1fch14br9.png">
-<meta property="og:updated_time" content="2018-11-04T10:09:53.767Z">
+<meta property="og:image" content="http://blog.yangfch3.com/2018/11/21/egret-dev-note1/coin-event-example.jpg">
+<meta property="og:image" content="http://blog.yangfch3.com/2018/11/21/egret-dev-note1/screenshot.gif">
+<meta property="og:updated_time" content="2018-11-25T15:42:40.590Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Web 排版中的 vertical-align">
-<meta name="twitter:description" content="如果你对 Web 排版中的 vertical-align 一直捉摸不透，那么这篇文章可能便是你一直想要寻找的资料了。">
-<meta name="twitter:image" content="http://static.zybuluo.com/yangfch3/mkpa9vcl1km2hv4uvkygjj3m/image_1bafbonhdkmunvt10s2a232b61g.png">
+<meta name="twitter:title" content="白鹭引擎游戏开发笔记">
+<meta name="twitter:description" content="在之前的文章 使用白鹭引擎开发微信小游戏的一些流程改进 中我介绍了基于白鹭引擎在开发微信小游戏中流程的一些改进方案，本文将介绍在开发 HTML5 游戏中遇到的一些切实的问题与解决方案。">
+<meta name="twitter:image" content="http://blog.yangfch3.com/2018/11/21/egret-dev-note1/coin-event-example.jpg">
 
 
 
@@ -126,7 +118,7 @@
   };
 </script>
 
-  <title> Web 排版中的 vertical-align | FuChee's blog </title>
+  <title> 白鹭引擎游戏开发笔记 | FuChee's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -308,7 +300,7 @@
             
             
               
-                Web 排版中的 vertical-align
+                白鹭引擎游戏开发笔记
               
             
           </h1>
@@ -320,8 +312,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2018-05-05T09:13:14+08:00" content="2018-05-05">
-              2018-05-05
+            <time itemprop="dateCreated" datetime="2018-11-21T21:15:06+08:00" content="2018-11-21">
+              2018-11-21
             </time>
           </span>
 
@@ -334,8 +326,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Web/" itemprop="url" rel="index">
-                    <span itemprop="name">Web</span>
+                  <a href="/categories/游戏/" itemprop="url" rel="index">
+                    <span itemprop="name">游戏</span>
                   </a>
                 </span>
 
@@ -350,8 +342,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2018/05/05/vertical-align-and-web-typography/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/05/05/vertical-align-and-web-typography/" itemprop="commentsCount"></span>
+                <a href="/2018/11/21/egret-dev-note1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/11/21/egret-dev-note1/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -374,100 +366,55 @@
       
 
       
-        <p>如果你对 Web 排版中的 <code>vertical-align</code> 一直捉摸不透，那么这篇文章可能便是你一直想要寻找的资料了。</p>
+        <p>在之前的文章 <a href="/2018/10/24/wx-minigame-dev-using-egret/" title="使用白鹭引擎开发微信小游戏的一些流程改进">使用白鹭引擎开发微信小游戏的一些流程改进</a> 中我介绍了基于白鹭引擎在开发微信小游戏中流程的一些改进方案，本文将介绍在开发 HTML5 游戏中遇到的一些切实的问题与解决方案。</p>
 <a id="more"></a>
-<h2 id="基本概念">基本概念</h2>
-<p><img src="http://static.zybuluo.com/yangfch3/mkpa9vcl1km2hv4uvkygjj3m/image_1bafbonhdkmunvt10s2a232b61g.png" alt="image_1bafbonhdkmunvt10s2a232b61g.png-23.9kB"></p>
-<center>浏览器中的大小写字母、中文混排</center>
-<h3 id="基线与行高">基线与行高</h3>
-<p>基线：<code>baseline</code><br>
-行高：<code>line-height</code></p>
-<p>为了表述的方便，我们首先回到小时候看看曾经使用过的拼音线格：<br>
-<img src="http://static.zybuluo.com/yangfch3/cqadi1c1y1oko5yjufygku54/image_1bafau0ji1nb01oea1h1012icqks13.png" alt="image_1bafau0ji1nb01oea1h1012icqks13.png-329.5kB"></p>
-<p>从上图我们基本就能明确基线与行高两个概念了：</p>
+<h2 id="cacheasbitmap-的尺寸限制">cacheAsBitmap 的尺寸限制</h2>
+<p>当我们对一个尺寸很大的显示对象使用 <code>cacheAsBitmap</code> 功能时，会发现在部分浏览器中（尤其是移动端浏览器中）可能会抛出错误：</p>
+<figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WebGL: INVALID_VALUE: texImage2D: <span class="literal">width</span> <span class="keyword">or</span> height <span class="keyword">out</span> <span class="keyword">of</span> <span class="keyword">range</span></span><br></pre></td></tr></table></figure>
+<p>错误表示我们我们的 2D 位图宽度或高度超出了浏览器的限制。</p>
+<p>据笔者测试，最新的 <code>Safari</code> —— iOS 12 —— 中<br>
+<code>WebGL</code>/<code>Canvas</code> 能缓存的 2D 位图宽或高不能超过 <strong>4096</strong>。当我们的游戏是一个比较大的场景，我们又想对场景的不变部分做 <code>cacheAsBitmap</code> 时可能触发此问题。</p>
+<p>要规避此问题，要么对大的场景做分块，要么不使用 <code>cacheAsBitmap</code></p>
+<h2 id="利用事件机制解耦代码">利用事件机制解耦代码</h2>
+<p>类与类或模块与模块之间的接口调用、状态传递在软件开发中时无法避免的，但是很多时候因为开发时间的限制或者自己的疏忽带来的模块之间的强耦合。</p>
+<p>订阅-发布的设计模式较常用于模块间的解耦 —— 包括时间上（异步操作）的解耦与空间上的解耦，并且 <code>JavaScript</code> 本身其实也是一门基于事件驱动的语言。<code>egret.EventDispatcher</code> 是 egret 自带的事件派发器类，我们可以用它来实现模块间的解耦。尤其是当模块高度独立，模块有自身的生命周期（或特定时间/状态点），需要对外提供针这些时间/状态点的无侵入接口时最适合使用。</p>
+<p>但是要注意下面这些问题：</p>
 <ol>
-<li>基线：多数字母排列的基准线</li>
-<li>段落中连续行的基线间的垂直距离称为行高（Line Height）或行距（Leading）</li>
+<li>及时移除不再需要的事件监听函数，减轻内存负担</li>
+<li>发布-订阅机制减少了模块/对象之间的联系，这也表示着我们在阅读代码/排查 Bug 时要摸清模块/对象之间的联系需要花费多一些功夫</li>
 </ol>
-<p>思考与扩展：当我们没有指定确定的行高时，浏览器给予行内元素的行高是多少？</p>
+<p>例如下图的例子：</p>
+<img src="/2018/11/21/egret-dev-note1/coin-event-example.jpg" title="金币拉取与更新">
+<p>金币组件只需订阅金币变动的事件，金币数据在被 <code>set</code> 时派发金币变动的事件，这样我们便只需 <code>fetch</code> 到最新的金币数据然后更新金币数据即可，而无需再去调用方法变更金币视图。</p>
+<p>此外，游戏中各种状态的切换（初始、准备、匹配、游戏中、游戏成功、游戏失败）通过事件的机制也能减少很多重复的代码，可以尝试使用。</p>
+<h2 id="显示对象的层级">显示对象的层级</h2>
+<p>显示对象就像一棵树，我们需要维护这棵树的枝叶，让这棵树正常的生长，否则仍由其狂乱生长，会成为长期开发与维护的噩梦。。</p>
+<p>一般在游戏中都会有两种需要维护的显示对象：场景（<code>Scene</code>）与场景内的弹出层（<code>Layer</code>），场景之间的切换与恢复，弹出层之间的叠加与切换如果没有专门的管理代码会将你的游戏代码带向深渊。</p>
+<p>下面是两个比较简单的 <code>Scene</code> 与 <code>Layer</code> 管理组件，能满足简单的游戏开发工作。</p>
+<h3 id="scenemanager">SceneManager</h3>
+<p>代码简单易懂，可以直接阅读代码：<a href="https://gist.github.com/yangfch3/30ba6b05e9f1f015a9c82aa10077dda0" target="_blank" rel="noopener">SceneManager</a></p>
+<p>注意：上面的代码不包含场景间切换的资源管理，请自行实现</p>
+<h3 id="layermanager">LayerManager</h3>
+<p>弹出框管理：<a href="https://github.com/yangfch3/egret-LayerManager" target="_blank" rel="noopener">LayerManager</a></p>
+<img src="/2018/11/21/egret-dev-note1/screenshot.gif" title="LayerManager">
+<h2 id="声音管理">声音管理</h2>
+<p>白鹭通过持有音频播放后返回的 <code>SoundChannel</code> 对象来进行管理，其本身不提供对音频的集中式管理，例如：全局静音、全局音量调节等。</p>
+<p><a href="https://gist.github.com/yangfch3/c00c3b14cd54937a878b5f5e0cdbc4f9" target="_blank" rel="noopener">SoundManager</a> 此组件包含了常用的音频管理功能，同时内置了缓存机制。</p>
+<h2 id="图片跨域">图片跨域</h2>
+<p>白鹭的 Canvas/WebGL 加载网络图片的原理都是使用 <code>Image</code> 对象，当使用的图片与当前域名不一致时会遇到跨域问题（浏览器出于内存安全的角度考虑）。白鹭的 <code>ImageLoader</code> 对象有一个 <code>crossOrigin</code> 属性，当 <code>imgLoader.crossOrigin = 'anonymous'</code> 来以匿名的方式访问时可以规避跨域问题，但是在使用 <code>texture.toDataURL</code> 时还会报跨域问题。</p>
 <blockquote>
-<ol>
-<li>没有确定行高时，其 <code>line-height</code> 的值默认为 <code>normal</code></li>
-<li>对于没有使用行内元素包裹的文字（如：<code>&lt;div&gt;abc&lt;/div&gt;</code>），浏览器在底层的处理相当于为这些文字包上一层行内元素（相当于 <code>&lt;div&gt;&lt;span&gt;abc&lt;/span&gt;&lt;/div&gt;</code>）</li>
-<li>浏览器为行内元素设置的默认行高 <code>normal</code> 取值随着字体大小、字体类型的变化而变化</li>
-</ol>
+<p><code>imgLoader.crossOrigin = 'anonymous'</code> 表示对图片的请求不会携带 <code>cookies</code> 等用户信息，防止用户状态被不知情的情况下被使用；又由于纹理是存储在内存中的，WebGL 又是直接对内存的操作，所以为了防止内存的安全，跨域图片的 <code>texture.toDataURL</code> 不被允许。</p>
 </blockquote>
-<h3 id="x-height">x-height</h3>
-<p><code>x</code> 这个字母在排版中具有不俗的地位，下面来看看如何个不俗法。</p>
-<p><img src="http://static.zybuluo.com/yangfch3/u6xpmwsuni6y75kkkteixe7z/image_1bafc7uglqo61ote1j521flct511t.png" alt="image_1bafc7uglqo61ote1j521flct511t.png-30kB"></p>
-<p><code>x-height</code> 指的便是小写字母 <code>x</code> 字母的实际物理高度。为什么会选择 <code>x</code> 呢，可能是因为其良好的对称性、上下边缘平整才成为这个天选之子吧。</p>
-<p>这里为什么会莫名其妙地说起 <code>x-height</code> 这个概念呢？在前端有什么用呢？</p>
-<p>请继续往下阅读吧，可以预告一下：<code>x-height</code> 与我们今天的主角 <code>vertical-align</code> 有联系。</p>
-<h3 id="小写字母的-下沉">小写字母的“下沉”</h3>
-<p>首先上一段代码：<br>
-<img src="http://static.zybuluo.com/yangfch3/ebqehj53esh0opdhgb873q8o/image_1bafdkra71u6dotkkub17l8cpt2a.png" alt="image_1bafdkra71u6dotkkub17l8cpt2a.png-33.3kB"></p>
-<p>看看实际效果：<br>
-<img src="http://static.zybuluo.com/yangfch3/c80337hz0ibfj8qfouqfkthw/image_1bafdn8011bb71ogq1eaecdo1o0a34.png" alt="image_1bafdn8011bb71ogq1eaecdo1o0a34.png-31.3kB"></p>
-<p>然后我们来<strong>局部放大小写字母</strong>部分，通过对角线找到 <strong>行盒</strong> 的垂直中线（图中竖直方向中间的红线），与 <code>x</code> 的中心位置进行对比便能发现：<strong>行盒垂直方向的中线高于小写的 <code>x</code> 的中心点</strong>。<br>
-<img src="http://static.zybuluo.com/yangfch3/aj7g136ex9a7sizpm210w7p9/image_1bafdmmadvrc19dqur71927q732n.png" alt="image_1bafdmmadvrc19dqur71927q732n.png-142.9kB"></p>
-<p>这个情况，可以形象地记忆为小写字母的 <strong>下沉</strong>。</p>
-<h3 id="文本排版参考线">文本排版参考线</h3>
-<p><img src="http://static.zybuluo.com/yangfch3/wxwyxkakjmqqr1luakis57s1/image_1bafetjs27d11udtiu94c11o279.png" alt="image_1bafetjs27d11udtiu94c11o279.png-30.4kB"></p>
-<center>一图看懂</center>
-<h2 id="进阶">进阶</h2>
-<h3 id="关于网页中的图片">关于网页中的图片</h3>
-<p>图片做为网页中特殊的行内元素，但是图片又不是文字，为了更好阐述下文图文混排的知识，根据经验我做出如下阐述：</p>
-<ol>
-<li>图片的 <code>baseline</code>、<code>bottom</code> 可以认为位置相同，都是图片的底边位置</li>
-<li>图片的 <code>top</code> 可以认为是图片的上边位置</li>
-<li>图片不是文本，所以我们可以认为图片没有所谓的 <code>text-top</code>、<code>text-bottom</code>、<code>sub</code>、<code>sup</code> 概念</li>
-</ol>
-<h3 id="莫名出现的空白">莫名出现的空白</h3>
-<p>源码：<br>
-<img src="http://static.zybuluo.com/yangfch3/y34n1nb1b6gpb9yt3b4b0ui3/image_1bafhcotm12m338av3o15cj1nul13.png" alt="image_1bafhcotm12m338av3o15cj1nul13.png-25.9kB"></p>
-<p>效果：<br>
-<img src="http://static.zybuluo.com/yangfch3/p5186vgoyogkpkecn921ugll/image_1bafhd8nsmj31vj71mcdjkjc831g.png" alt="image_1bafhd8nsmj31vj71mcdjkjc831g.png-12.6kB"></p>
-<p>嗯，出现了莫名的空白，其实这也是我们经常遇到的问题，这个空白出现的原因是什么呢？</p>
+<h2 id="微信小游戏场景下系列问题">微信小游戏场景下系列问题</h2>
+<h3 id="重刷新机制">重刷新机制</h3>
+<p>微信小游戏不能像在网页上一样刷新页面，在某些特定的情景下我们可能需要一个像网页刷新页面一样的刷新机制。所以我们需要提供一个刷新的接口，接口的主要工作是初始现有的软件状态、舞台上的显示对象，重新运行游戏的入口逻辑。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Main.ts</span></span><br><span class="line"><span class="comment">// 用于微信小游戏的刷新</span></span><br><span class="line"><span class="keyword">public</span> refresh() &#123;</span><br><span class="line">    <span class="keyword">this</span>.removeChildren()</span><br><span class="line">    <span class="keyword">this</span>.runGame().catch(<span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="长连接的重连">长连接的重连</h3>
 <blockquote>
-<p>想通这个问题很简单，你只要先假设图片的相邻处有文字，思考图片文字的对齐方案，单后再把文字去掉就能想通了。</p>
+<p>小程序进入后台运行后（非置顶聊天），如果 5s 内网络请求没有结束，会回调错误信息 <code>fail interrupted</code>；在回到前台之前，网络请求接口调用都会无法调用。</p>
 </blockquote>
-<p>值得注意的是这个空白只有在标准模式下渲染才会出现，在接近标准模式（HTML 4.0）、怪异模式（HTML 3.0、IE5-）下渲染不会有。</p>
-<p>那么我们如何消除这个空白呢？</p>
-<ol>
-<li>外层块盒设置 <code>font-size: 0</code></li>
-<li>外层块盒 <code>line-height</code> 设置得足够小（在 Chrome 下设置要小于 12px）</li>
-</ol>
-<h3 id="合成行盒的各排版参考线">合成行盒的各排版参考线</h3>
-<p>合成行盒就是类似下面这种情况，简单点说便是图片文字混排的情况</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span>&gt;</span>XYZ<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"xxx"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>经过测试，我们能得到以下结果：合成行盒各排版参考线情况<br>
-<img src="http://static.zybuluo.com/yangfch3/n4d9u34113xwte420m2wasc4/image_1bafi8hrat54ob91c9l1fch14br9.png" alt="image_1bafi8hrat54ob91c9l1fch14br9.png-110.1kB"></p>
-<blockquote>
-<p>修正：图中的 <code>x-height</code> 应为 <strong>半<code>x-height</code></strong></p>
-</blockquote>
-<p>总结的几个原则：</p>
-<ol>
-<li>大部分排版参考线只由这里面字体最小的那部分确定</li>
-<li>大图能决定合成行盒的 <code>top</code></li>
-</ol>
-<h2 id="vertical-align-详解">vertical-align 详解</h2>
-<p>请认认真真地咀嚼下面的结论，遇到具体情境时再结合上文的手段进行分析，你就能得出正确的对齐手段。</p>
-<blockquote>
-<p><strong>baseline</strong>：把当前盒的基线与父盒的基线对齐。如果该盒没有基线（如图片），就将底部外边距的边界和父盒的基线对齐<br>
-<strong>sub</strong>：把当前盒的基线降低到合适的位置作为父盒的下标（该值不影响该元素文本的字体大小）<br>
-<strong>super</strong>：把当前盒的基线提升到合适的位置作为父盒的上标（该值不影响该元素文本的字体大小）<br>
-<strong>text-top</strong>：把当前盒的 top 和**父盒的内容区的 top（即父盒的 text-top）<strong>对齐<br>
-<strong>text-bottom</strong>：把当前盒的 bottom 和</strong>父盒的内容区的 bottom （即父盒的 text-bottom）<strong>对齐<br>
-<strong>middle</strong>：把当前盒的垂直中心和父盒的基线加上父盒的半 x-height 对齐<br>
-<strong>top</strong>：把当前盒的 top 与</strong>行盒的 top（父盒下合成行盒的 top）<strong>对齐<br>
-<strong>bottom</strong>：把当前盒的 bottom 与</strong>行盒的 bottom（父盒下合成行盒的 bottom）**对齐<br>
-<strong><code>&lt;percentage&gt;</code></strong>：把当前盒提升（正值）或者降低（负值）这个距离，百分比是相对元素自身 line-height 计算。当值为 0% 时等同于 baseline。<br>
-<strong><code>&lt;length&gt;</code></strong>：把当前盒提升（正值）或者降低（负值）这个距离。当值为 0 时等同于 baseline。（CSS2）</p>
-</blockquote>
-<hr>
-<h2 id="附录">附录</h2>
-<p>一个用于测试的简单的、经典的页面：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-cmn-Hans"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"initial-scale=1,maximum-scale=1,user-scalable=no,width=device-width,shrink-to-fit=no"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"x-ua-compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"renderer"</span> <span class="attr">content</span>=<span class="string">"webkit"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>vertical-align demo<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">几个可以尝试的扩展练习：</span></span><br><span class="line"><span class="comment">1. 尝试先将图片确定为某个 vertical-align 值，再来变更两个 span 的 vertical-align 值，查看效果，分析原理</span></span><br><span class="line"><span class="comment">2. 尝试随意地为两个 span 和一个 img 分配 vertical-align 值，查看效果，分析原理</span></span><br><span class="line"><span class="comment">3. 如果 span 内文字多行会怎么样？</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"background-color:#E5EDFF;"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"background-color:#fff;font-size: 40px;"</span>&gt;</span>ZXXXxx<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"https://dummyimage.com/300x200/000/fff"</span> <span class="attr">style</span>=<span class="string">"width: 300px; height: 200px;"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"background-color:#fff; font-size: 23px;"</span>&gt;</span>zxxf<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">hr</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">可以尝试的扩展练习：为最外层 div 内的各个元素随机设置 vertical-align，查看效果，分析原理</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"background-color: #ccc"</span>&gt;</span>zxxxf<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"background-color:#E5EDFF; display: inline-block"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"background-color:#fff; font-size: 40px;"</span>&gt;</span>ZXXXxx<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"https://dummyimage.com/300x200/000/fff"</span> <span class="attr">style</span>=<span class="string">"width: 300px; height: 200px;"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"background-color:#fff; font-size: 23px;"</span>&gt;</span>zxxf<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>所以一旦不在小程序界面超过 5s（包括停留在分享界面），长连接便会断开，即使长连接有自动重连机制，如果在重连期间没有回到小程序界面，长连接还是会失败。所以除了长连接的重连机制，可能还需要在回到小程序界面时或者用户操作前进行连接状态的检测与必要的重连。</p>
+<p>如果你的小程序/小游戏后端服务器使用的是 <code>pomelo</code>，那么建议你使用我进行了扩展增强的 <code>pomelo</code> 微信客户端：<a href="https://github.com/yangfch3/pomelo-client-wx" target="_blank" rel="noopener">pomelo-client-wx</a>，支持重连和多个 <code>pomelo</code> 实例。但是你还是要实现上面所说的 <em>在回到小程序界面时或者用户操作前进行连接状态的检测与必要的重连</em>。</p>
 
       
     </div>
@@ -515,9 +462,13 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Web/" rel="tag">#Web</a>
+            <a href="/tags/HTML5/" rel="tag">#HTML5</a>
           
-            <a href="/tags/排版/" rel="tag">#排版</a>
+            <a href="/tags/游戏/" rel="tag">#游戏</a>
+          
+            <a href="/tags/微信小游戏/" rel="tag">#微信小游戏</a>
+          
+            <a href="/tags/微信开发/" rel="tag">#微信开发</a>
           
         </div>
       
@@ -526,17 +477,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/22/log4js-with-pm2/" rel="next" title="pm2 与 log4js 混用指南">
-                <i class="fa fa-chevron-left"></i> pm2 与 log4js 混用指南
+              <a href="/2018/11/04/err-handling-in-nodejs-cn/" rel="next" title="【译】Node.js 中的错误处理">
+                <i class="fa fa-chevron-left"></i> 【译】Node.js 中的错误处理
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/10/24/wx-minigame-dev-using-egret/" rel="prev" title="使用白鹭引擎开发微信小游戏的一些流程改进">
-                使用白鹭引擎开发微信小游戏的一些流程改进 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -711,7 +658,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基线与行高"><span class="nav-number">1.1.</span> <span class="nav-text">基线与行高</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#x-height"><span class="nav-number">1.2.</span> <span class="nav-text">x-height</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小写字母的-下沉"><span class="nav-number">1.3.</span> <span class="nav-text">小写字母的“下沉”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文本排版参考线"><span class="nav-number">1.4.</span> <span class="nav-text">文本排版参考线</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进阶"><span class="nav-number">2.</span> <span class="nav-text">进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于网页中的图片"><span class="nav-number">2.1.</span> <span class="nav-text">关于网页中的图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#莫名出现的空白"><span class="nav-number">2.2.</span> <span class="nav-text">莫名出现的空白</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#合成行盒的各排版参考线"><span class="nav-number">2.3.</span> <span class="nav-text">合成行盒的各排版参考线</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vertical-align-详解"><span class="nav-number">3.</span> <span class="nav-text">vertical-align 详解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附录"><span class="nav-number">4.</span> <span class="nav-text">附录</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#cacheasbitmap-的尺寸限制"><span class="nav-number">1.</span> <span class="nav-text">cacheAsBitmap 的尺寸限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用事件机制解耦代码"><span class="nav-number">2.</span> <span class="nav-text">利用事件机制解耦代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#显示对象的层级"><span class="nav-number">3.</span> <span class="nav-text">显示对象的层级</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#scenemanager"><span class="nav-number">3.1.</span> <span class="nav-text">SceneManager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#layermanager"><span class="nav-number">3.2.</span> <span class="nav-text">LayerManager</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#声音管理"><span class="nav-number">4.</span> <span class="nav-text">声音管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片跨域"><span class="nav-number">5.</span> <span class="nav-text">图片跨域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微信小游戏场景下系列问题"><span class="nav-number">6.</span> <span class="nav-text">微信小游戏场景下系列问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#重刷新机制"><span class="nav-number">6.1.</span> <span class="nav-text">重刷新机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#长连接的重连"><span class="nav-number">6.2.</span> <span class="nav-text">长连接的重连</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
@@ -838,9 +785,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'yangfch3-blog';
-      var disqus_identifier = '2018/05/05/vertical-align-and-web-typography/';
-      var disqus_title = 'Web 排版中的 vertical-align';
-      var disqus_url = 'http://blog.yangfch3.com/2018/05/05/vertical-align-and-web-typography/';
+      var disqus_identifier = '2018/11/21/egret-dev-note1/';
+      var disqus_title = '白鹭引擎游戏开发笔记';
+      var disqus_url = 'http://blog.yangfch3.com/2018/11/21/egret-dev-note1/';
 
       function run_disqus_script(disqus_script){
         var dsq = document.createElement('script');
