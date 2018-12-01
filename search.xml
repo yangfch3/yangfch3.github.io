@@ -3,6 +3,33 @@
   
     
     <entry>
+      <title>前端中的错误处理</title>
+      <link href="/2018/11/30/err-handling-in-browser/"/>
+      <url>/2018/11/30/err-handling-in-browser/</url>
+      <content type="html"><![CDATA[<p>随着单页应用、PWA 以及微信小程序等概念的兴起与发展，现在前端工作越来越复杂，一个 Web 站点已经需要作为一个规范的软件工程看待了。</p><p>相比于之前只承担简单展示作用的 Web 页面不一样，现在前端无时无刻不在与服务器端进行异步地数据传输，同时还要管理内部复杂的状态逻辑。而游戏则更甚，复杂的场景变换、更多的用户动作、更多的数据交互。</p><p>在一个软件工程中，错误/异常的是非常有价值的一个东西，对错误的处理是容易忽视的一环，没有原则的不恰当错误处理还可能将你的代码带向混乱的沼泽。本文总结了自己在 Web 开发以及 HTML5 游戏开发中的错误处理经验，希望能为你带来一些灵感。</p><a id="more"></a><h2 id="错误与异常">错误与异常</h2><p>在 JavaScript 中，错误（error）和异常（exception）的区分：一个错误（error）是 Error 类型（或其子类型）的一个实例，错误（error）可以被创建，然后传递给另外的函数或被 <code>throw</code>，<strong>当一个错误被抛出，错误会沿着函数调用栈不断地上冒，最终没有被捕获处理，错误就变成了一个异常</strong>。</p><h2 id="接收与处理错误">接收与处理错误</h2><ol><li><code>try...catch</code> 同步地接收 <code>throw</code> 抛出的错误</li><li>回调函数接收异步操作传递出来的错误</li><li><code>Promise.prototype.catch</code> 异步地处理 <code>Promise</code> reject 出来的错误</li><li>EventEmitter 的 <code>error</code> 类事件异步地接收错误并处理</li></ol><p>其中 1 是同步操作错误的处理方式，2,3 和 4 属于异步操作错误的处理方式。</p><h3 id="浏览器的特殊性">浏览器的特殊性</h3><p>浏览器环境相比于 <code>Node.js</code> 环境主要存在以下不同点：</p><ol><li>遇到未捕获的异常，<code>Node.js</code> 进程会直接 crash，而浏览器下虽然会中断代码的继续执行，但已经载入内存中的代码仍旧可以运行和响应，页面也仍旧可用</li><li>浏览器下极少也不推荐使用回调函数来处理错误，旧版本的 <code>Node.js</code> 则存在大量使用回调处理错误的异步方法（事实证明，这不是一个好的设计）</li></ol><h2 id="前端中的错误">前端中的错误</h2><p>错误可以分为两类（见之前的博文 <a href="/2018/11/04/err-handling-in-nodejs-cn/" title="《Node.js 中的错误处理》">《Node.js 中的错误处理》</a>）：</p><ul><li>操作错误</li><li>程序员错误</li></ul><p><strong>在前端中最为常见的错误有以下三种</strong>：</p><ol><li>从 <code>null</code> 或 <code>undefined</code> 上读取属性</li><li><code>JSON.parse</code></li><li><code>XHR</code>/<code>fetch</code> 请求数据失败</li></ol><h3 id="uncaught-typeerror-cannot-read-property-xxx-of-undefined-null">Uncaught TypeError: Cannot read property ‘xxx’ of undefined/null</h3><p>这种错误完全是程序员犯错才会出现，请直接修改代码避免此错误而不是用代码去处理此错误。</p><p>有时我们会从服务端返回的数据接口做类似 <code>res.data.xxx.yyy</code> 的读取操作，此时 <code>res.data.xxx</code> 可能并没有值，导致我们读取报错。这种情况错误的原因来自于 <strong>前后端约定不到位</strong>，这个错误我们也视为是程序员错误，只不过这个错误是由前端和后端程序员共同造成的。</p><h3 id="json-parse-错误">JSON.parse 错误</h3><p>这个错误出现的原因又有几类：</p><ol><li>程序内部传入 <code>parse</code> 的数据不规范</li><li>未校验用户输入</li><li>服务器返回不规范</li></ol><p>其中 1 仍旧是程序员犯错才会出现，直接审查代码确保程序内部传入 <code>parse</code> 的数据符合规范。</p><p>而 2 由于数据来自外部，程序本身不可控，可以使用两种方式处理：</p><ol><li>先对用户输入进行规范性校验，非规范输入直接结束处理，不进入 <code>JSON.parse</code> 环节</li><li><code>try...catch</code> 包裹 <code>JSON.parse</code>，捕获到错误后 <code>return</code> 或者执行其他操作</li></ol><p>类型 3 则可能是我们的后端服务存在缺陷，导致返回不规范（例如：返回的是后端的错误堆栈而非接口数据，或者接口发生了前端不兼容的变动）。本质上来说这一部分错误是服务端造成的，不应该由前端来处理，前端能做的只有将错误上报（上报见下文）。</p><h3 id="网络请求类错误">网络请求类错误</h3><p>在 ES5 及之前，我们用于网络请求的对象主要是 <code>XMLHttpRequest</code>(XHR)，XHR 本身是一个 <code>EventEmitter</code>，正确返回与错误的处理都通过事件来完成。（几个需要串行的 XHR 请求常常伴随着丑陋的回调链，但这个话题在此暂不讨论）</p><p>所以在 ES5 中采用的是上文接收与处理错误中的第 4 种方法（EventEmitter 对象的 <code>error</code> 类事件）来处理 XHR 带来的错误。但要知道 <code>Promise</code> 是完全可以用 ES5 已有的特性模拟出来的，且借助 <code>Babel</code> 等工具我们可以在转译前的代码中使用 <code>async/await</code>，所以我们常常引入 <code>Promise</code> 的 <code>polyfill</code> 库，并将 <code>XMLHttpRequest</code> 进行一层 <code>Promisify</code> 包装，使得我们能切换到上面的第 3 种方法（<code>Promise.prototype.catch</code>）来处理。</p><p>全新的 <code>fetch</code> 返回的是一个 <code>Promise</code> 对象，我们可以天然地使用 <code>Promise.prototype.catch</code> 来处理其抛出的错误。</p><h2 id="自定义错误类型">自定义错误类型</h2><p>原生的错误类型有 <code>message</code> 和 <code>stack</code> 属性提供不错的错误信息，但有时候我们还需要记录更多和错误相关的状态（例如错误发生时变量参数或变量的值）以辅助 Debug 工作。</p><p>相比于在 Error 对象上进行添加，创建自定义的错误类型是更优雅的方式。</p><p><code>verror</code> 是一个不错的 Node.js 模块，用于错误的包装，我们在前端可以参考其设计进行自己的定制。</p><p><em>注：笔者正在编写一个浏览器环境下的错误包装模块，会在以后的博文介绍</em></p><h3 id="typescript-中自定义错误类型">TypeScript 中自定义错误类型</h3><p>从 <code>TypeScript</code> 2.1 开始，使用一般的继承方式继承内建类型 <code>Error</code>, <code>Array</code>, <code>Map</code> 等将无法像我们预期一样有效，见<a href="https://github.com/Microsoft/TypeScript-wiki/blob/master/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work" target="_blank" rel="noopener">文档</a>。</p><blockquote><p>As part of substituting the value of this with the value returned by a super(…) call, subclassing Error, Array, and others may no longer work as expected. This is due to the fact that constructor functions for Error, Array, and the like use ECMAScript 6’s new.target to adjust the prototype chain; however, there is no way to ensure a value for new.target when invoking a constructor in ECMAScript 5. Other downlevel compilers generally have the same limitation by default.</p><p>这是因为 Error, Array 等的构造函数使用 ECMAScript 6 的 <code>new.target</code> 来调整原型链；但是，在 ECMAScript 5 中调用构造函数时，无法确保 <code>new.target</code> 的值。</p></blockquote><p>可以使用下面的方法来在 TypeScript 中实现对 Error 内建类型的继承：</p><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> VError <span class="keyword">extends</span> <span class="built_in">Error</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> code: <span class="built_in">number</span></span><br><span class="line">    <span class="keyword">private</span> meta: <span class="built_in">any</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">constructor</span>(<span class="params">opts: &#123;</span></span><br><span class="line"><span class="params">        code: <span class="built_in">number</span></span></span><br><span class="line"><span class="params">        message: <span class="built_in">string</span></span></span><br><span class="line"><span class="params">        meta: <span class="built_in">any</span></span></span><br><span class="line"><span class="params">    &#125;</span>) &#123;</span><br><span class="line">        <span class="keyword">super</span>(opts.message)</span><br><span class="line">        <span class="keyword">this</span>.name = <span class="string">'VError'</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/** 纠正 this **/</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">Object</span>[<span class="string">'setPrototypeOf'</span>]) &#123;</span><br><span class="line">            <span class="built_in">Object</span>[<span class="string">'setPrototypeOf'</span>](<span class="keyword">this</span>, VError.prototype)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>[<span class="string">'__proto__'</span>] = VError.prototype </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.code = opts.code</span><br><span class="line">        <span class="keyword">this</span>.meta = opts.meta</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    toStrong() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">JSON</span>.stringify(&#123;</span><br><span class="line">            code: <span class="keyword">this</span>.code,</span><br><span class="line">            message: <span class="keyword">this</span>.message,</span><br><span class="line">            meta: <span class="keyword">this</span>.meta,</span><br><span class="line">            stack: <span class="keyword">this</span>.stack</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="事件驱动的浏览器环境">事件驱动的浏览器环境</h2><p>始终不要忘记的一件事：JavaScript 是事件驱动型的语言，浏览器环境事件无处不在。</p><p><code>window.onerror</code> 可以用于监听上报（函数调用栈各级一直没有 <code>catch</code> 并处理）的错误，成为我们处理错误的最后一道防线。</p><p><strong>一般我们会在 <code>window.onerror</code> 回调中对错误进行集中的处理与上报；程序运行过程中无特殊要求的错误可以直接抛出，由浏览器自动上冒到此处进行处理。</strong></p><h2 id="总结">总结</h2><ol><li><strong>约定高于一切：</strong> 每个函数与方法的注释除了说明参数、返回值之外，还需要注明可能 <code>throw</code> 或 <code>reject</code> 的错误及其原因说明，调用此函数的上一级代码以此文档作为绝对信赖的依据</li><li>错误根据函数调用栈逐级上传，栈遍历完毕无捕获则在 <code>window</code> 上触发错误事件，<strong>事件循环队列的异步函数调用栈顶层是自身</strong></li><li>一个包含了其他函数调用的函数，编写逻辑时务必要假设内部的函数调用是可能 <code>throw</code> 或 <code>reject</code> 错误的</li><li>尽量不要使用 <code>try...catch</code>（在转译前的代码更是如此）</li><li>推荐使用自定义错误并适当添加附加 Debug 信息</li><li><code>window.onerror</code> 可以用于集中的错误日志上报与消息提示（推荐与 5 结合使用），注意不要用它来吞没错误</li><li><code>Promise.prototype.catch</code> 处理错误，利用完错误（执行状态回退、错误外显等）后，还是可以 <code>throw</code> 交由 <code>window.onerror</code> 来上报</li><li>没有像浏览器 <code>window.onerror</code> 这样全局的异常捕获机制的运行环境，就尽量在更外层的函数中集中处理异常</li></ol>]]></content>
+      
+      <categories>
+          
+          <category> JavaScript </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> JavaScript </tag>
+            
+            <tag> TypeScript </tag>
+            
+            <tag> 错误处理 </tag>
+            
+            <tag> 指南 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>白鹭引擎游戏开发笔记</title>
       <link href="/2018/11/21/egret-dev-note1/"/>
       <url>/2018/11/21/egret-dev-note1/</url>
@@ -44,13 +71,13 @@
       
         <tags>
             
-            <tag> Node </tag>
-            
-            <tag> 翻译 </tag>
-            
             <tag> 错误处理 </tag>
             
             <tag> 指南 </tag>
+            
+            <tag> Node </tag>
+            
+            <tag> 翻译 </tag>
             
         </tags>
       
@@ -73,13 +100,13 @@
             
             <tag> Node </tag>
             
+            <tag> 翻译 </tag>
+            
             <tag> 异步 </tag>
             
             <tag> 底层原理 </tag>
             
             <tag> 事件循环 </tag>
-            
-            <tag> 翻译 </tag>
             
         </tags>
       
