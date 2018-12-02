@@ -97,7 +97,7 @@
 <meta property="og:image" content="http://blog.yangfch3.com/2018/11/21/egret-dev-note1/coin-event-example.jpg">
 <meta property="og:image" content="http://blog.yangfch3.com/2018/11/21/egret-dev-note1/MVC.jpg">
 <meta property="og:image" content="http://blog.yangfch3.com/2018/11/21/egret-dev-note1/screenshot.gif">
-<meta property="og:updated_time" content="2018-12-02T06:52:47.092Z">
+<meta property="og:updated_time" content="2018-12-02T14:45:56.274Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="白鹭引擎游戏开发笔记">
 <meta name="twitter:description" content="在之前的文章 使用白鹭引擎开发微信小游戏的一些流程改进 中我介绍了基于白鹭引擎在开发微信小游戏中流程的一些改进方案，本文将介绍在开发 HTML5 游戏中遇到的一些切实的问题与解决方案。">
@@ -428,6 +428,15 @@
 </blockquote>
 <p>所以一旦不在小程序界面超过 5s（包括停留在分享界面），长连接便会断开，即使长连接有自动重连机制，如果在重连期间没有回到小程序界面，长连接还是会失败。所以除了长连接的重连机制，可能还需要在回到小程序界面时或者用户操作前进行连接状态的检测与必要的重连。</p>
 <p>如果你的小程序/小游戏后端服务器使用的是 <code>pomelo</code>，那么建议你使用我进行了扩展增强的 <code>pomelo</code> 微信客户端：<a href="https://github.com/yangfch3/pomelo-client-wx" target="_blank" rel="noopener">pomelo-client-wx</a>，支持重连和多个 <code>pomelo</code> 实例。但是你还是要实现上面所说的 <em>在回到小程序界面时或者用户操作前进行连接状态的检测与必要的重连</em>。</p>
+<h2 id="其他">其他</h2>
+<ol>
+<li>
+<p><code>egret.Event.ENTER_FRAME</code> 是根据配置的帧率决定触发频率的，而 <code>egret.startTick()</code> 则是保证回调是每秒 60 次的调用频率</p>
+</li>
+<li>
+<p><code>egret.Event.RENDER</code> 监听此事件将会在本帧末即将开始渲染的前一刻触发回调，<code>egret.callLater</code> 注册的函数将延迟到屏幕重绘前执行</p>
+</li>
+</ol>
 
       
     </div>
@@ -675,7 +684,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#cacheasbitmap-的尺寸限制"><span class="nav-number">1.</span> <span class="nav-text">cacheAsBitmap 的尺寸限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用事件机制解耦代码"><span class="nav-number">2.</span> <span class="nav-text">利用事件机制解耦代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#白鹭下-mvc-模式的注意事项"><span class="nav-number">3.</span> <span class="nav-text">白鹭下 MVC 模式的注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#显示对象的层级"><span class="nav-number">4.</span> <span class="nav-text">显示对象的层级</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#scenemanager"><span class="nav-number">4.1.</span> <span class="nav-text">SceneManager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#layermanager"><span class="nav-number">4.2.</span> <span class="nav-text">LayerManager</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#声音管理"><span class="nav-number">5.</span> <span class="nav-text">声音管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片跨域"><span class="nav-number">6.</span> <span class="nav-text">图片跨域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微信小游戏场景下系列问题"><span class="nav-number">7.</span> <span class="nav-text">微信小游戏场景下系列问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#重刷新机制"><span class="nav-number">7.1.</span> <span class="nav-text">重刷新机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#长连接的重连"><span class="nav-number">7.2.</span> <span class="nav-text">长连接的重连</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#cacheasbitmap-的尺寸限制"><span class="nav-number">1.</span> <span class="nav-text">cacheAsBitmap 的尺寸限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用事件机制解耦代码"><span class="nav-number">2.</span> <span class="nav-text">利用事件机制解耦代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#白鹭下-mvc-模式的注意事项"><span class="nav-number">3.</span> <span class="nav-text">白鹭下 MVC 模式的注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#显示对象的层级"><span class="nav-number">4.</span> <span class="nav-text">显示对象的层级</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#scenemanager"><span class="nav-number">4.1.</span> <span class="nav-text">SceneManager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#layermanager"><span class="nav-number">4.2.</span> <span class="nav-text">LayerManager</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#声音管理"><span class="nav-number">5.</span> <span class="nav-text">声音管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片跨域"><span class="nav-number">6.</span> <span class="nav-text">图片跨域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微信小游戏场景下系列问题"><span class="nav-number">7.</span> <span class="nav-text">微信小游戏场景下系列问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#重刷新机制"><span class="nav-number">7.1.</span> <span class="nav-text">重刷新机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#长连接的重连"><span class="nav-number">7.2.</span> <span class="nav-text">长连接的重连</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">8.</span> <span class="nav-text">其他</span></a></li></ol></div>
             
           </div>
         </section>
