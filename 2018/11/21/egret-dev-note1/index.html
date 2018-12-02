@@ -95,8 +95,9 @@
 <meta property="og:description" content="在之前的文章 使用白鹭引擎开发微信小游戏的一些流程改进 中我介绍了基于白鹭引擎在开发微信小游戏中流程的一些改进方案，本文将介绍在开发 HTML5 游戏中遇到的一些切实的问题与解决方案。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog.yangfch3.com/2018/11/21/egret-dev-note1/coin-event-example.jpg">
+<meta property="og:image" content="http://blog.yangfch3.com/2018/11/21/egret-dev-note1/MVC.jpg">
 <meta property="og:image" content="http://blog.yangfch3.com/2018/11/21/egret-dev-note1/screenshot.gif">
-<meta property="og:updated_time" content="2018-11-25T15:42:40.590Z">
+<meta property="og:updated_time" content="2018-12-02T06:52:47.092Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="白鹭引擎游戏开发笔记">
 <meta name="twitter:description" content="在之前的文章 使用白鹭引擎开发微信小游戏的一些流程改进 中我介绍了基于白鹭引擎在开发微信小游戏中流程的一些改进方案，本文将介绍在开发 HTML5 游戏中遇到的一些切实的问题与解决方案。">
@@ -378,6 +379,9 @@
 <h2 id="利用事件机制解耦代码">利用事件机制解耦代码</h2>
 <p>类与类或模块与模块之间的接口调用、状态传递在软件开发中时无法避免的，但是很多时候因为开发时间的限制或者自己的疏忽带来的模块之间的强耦合。</p>
 <p>订阅-发布的设计模式较常用于模块间的解耦 —— 包括时间上（异步操作）的解耦与空间上的解耦，并且 <code>JavaScript</code> 本身其实也是一门基于事件驱动的语言。<code>egret.EventDispatcher</code> 是 egret 自带的事件派发器类，我们可以用它来实现模块间的解耦。尤其是当模块高度独立，模块有自身的生命周期（或特定时间/状态点），需要对外提供针这些时间/状态点的无侵入接口时最适合使用。</p>
+<blockquote>
+<p><code>EventDispatcher.dispatchEvent('eventXXX')</code> 会立即触发事件 <code>eventXXX</code> 的回调，而不是异步地执行回调函数</p>
+</blockquote>
 <p>但是要注意下面这些问题：</p>
 <ol>
 <li>及时移除不再需要的事件监听函数，减轻内存负担</li>
@@ -387,6 +391,15 @@
 <img src="/2018/11/21/egret-dev-note1/coin-event-example.jpg" title="金币拉取与更新">
 <p>金币组件只需订阅金币变动的事件，金币数据在被 <code>set</code> 时派发金币变动的事件，这样我们便只需 <code>fetch</code> 到最新的金币数据然后更新金币数据即可，而无需再去调用方法变更金币视图。</p>
 <p>此外，游戏中各种状态的切换（初始、准备、匹配、游戏中、游戏成功、游戏失败）通过事件的机制也能减少很多重复的代码，可以尝试使用。</p>
+<h2 id="白鹭下-mvc-模式的注意事项">白鹭下 MVC 模式的注意事项</h2>
+<p>MVC 作为一个经典的架构，我们可以将其应用到我们的游戏开发中。</p>
+<img src="/2018/11/21/egret-dev-note1/MVC.jpg" title="MVC">
+<p>图中 Model 通知 View 便可以通过白鹭的 <code>egret.EventDispatcher</code> 来实现。</p>
+<p>有一些需要注意的事项：</p>
+<ol>
+<li>严格遵守 MVC 中数据的流向与调用关系，不可逾权</li>
+<li>如果用户的操作不需要更新 Model，而只需要更新视图（例如：点击一个按钮就展示一个弹框），则直接在操作回调中更新视图，不用再走 Controller -&gt; Model -&gt; View 这条路径了</li>
+</ol>
 <h2 id="显示对象的层级">显示对象的层级</h2>
 <p>显示对象就像一棵树，我们需要维护这棵树的枝叶，让这棵树正常的生长，否则仍由其狂乱生长，会成为长期开发与维护的噩梦。。</p>
 <p>一般在游戏中都会有两种需要维护的显示对象：场景（<code>Scene</code>）与场景内的弹出层（<code>Layer</code>），场景之间的切换与恢复，弹出层之间的叠加与切换如果没有专门的管理代码会将你的游戏代码带向深渊。</p>
@@ -662,7 +675,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#cacheasbitmap-的尺寸限制"><span class="nav-number">1.</span> <span class="nav-text">cacheAsBitmap 的尺寸限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用事件机制解耦代码"><span class="nav-number">2.</span> <span class="nav-text">利用事件机制解耦代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#显示对象的层级"><span class="nav-number">3.</span> <span class="nav-text">显示对象的层级</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#scenemanager"><span class="nav-number">3.1.</span> <span class="nav-text">SceneManager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#layermanager"><span class="nav-number">3.2.</span> <span class="nav-text">LayerManager</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#声音管理"><span class="nav-number">4.</span> <span class="nav-text">声音管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片跨域"><span class="nav-number">5.</span> <span class="nav-text">图片跨域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微信小游戏场景下系列问题"><span class="nav-number">6.</span> <span class="nav-text">微信小游戏场景下系列问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#重刷新机制"><span class="nav-number">6.1.</span> <span class="nav-text">重刷新机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#长连接的重连"><span class="nav-number">6.2.</span> <span class="nav-text">长连接的重连</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#cacheasbitmap-的尺寸限制"><span class="nav-number">1.</span> <span class="nav-text">cacheAsBitmap 的尺寸限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用事件机制解耦代码"><span class="nav-number">2.</span> <span class="nav-text">利用事件机制解耦代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#白鹭下-mvc-模式的注意事项"><span class="nav-number">3.</span> <span class="nav-text">白鹭下 MVC 模式的注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#显示对象的层级"><span class="nav-number">4.</span> <span class="nav-text">显示对象的层级</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#scenemanager"><span class="nav-number">4.1.</span> <span class="nav-text">SceneManager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#layermanager"><span class="nav-number">4.2.</span> <span class="nav-text">LayerManager</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#声音管理"><span class="nav-number">5.</span> <span class="nav-text">声音管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片跨域"><span class="nav-number">6.</span> <span class="nav-text">图片跨域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微信小游戏场景下系列问题"><span class="nav-number">7.</span> <span class="nav-text">微信小游戏场景下系列问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#重刷新机制"><span class="nav-number">7.1.</span> <span class="nav-text">重刷新机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#长连接的重连"><span class="nav-number">7.2.</span> <span class="nav-text">长连接的重连</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
