@@ -97,7 +97,7 @@
 <meta property="og:image" content="http://blog.yangfch3.com/2018/11/21/egret-dev-note1/coin-event-example.jpg">
 <meta property="og:image" content="http://blog.yangfch3.com/2018/11/21/egret-dev-note1/MVC.jpg">
 <meta property="og:image" content="http://blog.yangfch3.com/2018/11/21/egret-dev-note1/screenshot.gif">
-<meta property="og:updated_time" content="2018-12-02T14:45:56.274Z">
+<meta property="og:updated_time" content="2018-12-08T13:58:27.722Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="白鹭引擎游戏开发笔记">
 <meta name="twitter:description" content="在之前的文章 使用白鹭引擎开发微信小游戏的一些流程改进 中我介绍了基于白鹭引擎在开发微信小游戏中流程的一些改进方案，本文将介绍在开发 HTML5 游戏中遇到的一些切实的问题与解决方案。">
@@ -399,6 +399,7 @@
 <ol>
 <li>严格遵守 MVC 中数据的流向与调用关系，不可逾权</li>
 <li>如果用户的操作不需要更新 Model，而只需要更新视图（例如：点击一个按钮就展示一个弹框），则直接在操作回调中更新视图，不用再走 Controller -&gt; Model -&gt; View 这条路径了</li>
+<li>View 持有 Controller 和 Model，读取 Model 用于视图展示，回调内调用 Controller 方法；Controll 持有 Model，调用 Model 的方法更新 Model（忌直接更改 Model 的成员）；Model 只需要关注自身即可，方法内更新自身状态时，派发必要的事件供 View 响应变化</li>
 </ol>
 <h2 id="显示对象的层级">显示对象的层级</h2>
 <p>显示对象就像一棵树，我们需要维护这棵树的枝叶，让这棵树正常的生长，否则仍由其狂乱生长，会成为长期开发与维护的噩梦。。</p>
@@ -410,6 +411,9 @@
 <h3 id="layermanager">LayerManager</h3>
 <p>弹出框管理：<a href="https://github.com/yangfch3/egret-LayerManager" target="_blank" rel="noopener">LayerManager</a></p>
 <img src="/2018/11/21/egret-dev-note1/screenshot.gif" title="LayerManager">
+<blockquote>
+<p>不要在一整个 Scene 上绑定点击事件（目标太大），否则 Layer 上的 Touch 事件也会造成 Scene 上 Touch 事件的触发。</p>
+</blockquote>
 <h2 id="声音管理">声音管理</h2>
 <p>白鹭通过持有音频播放后返回的 <code>SoundChannel</code> 对象来进行管理，其本身不提供对音频的集中式管理，例如：全局静音、全局音量调节等。</p>
 <p><a href="https://gist.github.com/yangfch3/c00c3b14cd54937a878b5f5e0cdbc4f9" target="_blank" rel="noopener">SoundManager</a> 此组件包含了常用的音频管理功能，同时内置了缓存机制。</p>
