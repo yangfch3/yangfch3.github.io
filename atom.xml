@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.yangfch3.com/"/>
-  <updated>2018-12-01T15:57:14.168Z</updated>
+  <updated>2019-03-02T16:22:16.114Z</updated>
   <id>http://blog.yangfch3.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>H5 2D 游戏开发系列文章计划</title>
+    <link href="http://blog.yangfch3.com/2019/03/03/h5-2d-article-plan/"/>
+    <id>http://blog.yangfch3.com/2019/03/03/h5-2d-article-plan/</id>
+    <published>2019-03-02T16:07:34.000Z</published>
+    <updated>2019-03-02T16:22:16.114Z</updated>
+    
+    <content type="html"><![CDATA[<p>做了半年多的 H5 2D 游戏，计划将期间的收获以系列的文章记录下来，文章的写作顺序将会按照下面的提纲进行。</p><a id="more"></a><ul><li>UI 管理</li><li>场景管理</li><li>资源管理解决方案</li><li>游戏前端架构思路</li><li>MVC</li><li>动画</li><li>碰撞</li><li>2D 摄像头</li><li>指引</li><li>红点</li><li>Protocol Buffer</li><li>MMORPG 系列<ul><li>2.5D</li><li>Tiled Map 与地图</li><li>寻路</li><li>AOI</li><li>场景管理</li><li>AI</li></ul></li><li>Egret 引擎相关</li><li>LayaAir 引擎相关</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;做了半年多的 H5 2D 游戏，计划将期间的收获以系列的文章记录下来，文章的写作顺序将会按照下面的提纲进行。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="游戏" scheme="http://blog.yangfch3.com/categories/%E6%B8%B8%E6%88%8F/"/>
+    
+    
+      <category term="HTML5" scheme="http://blog.yangfch3.com/tags/HTML5/"/>
+    
+      <category term="游戏" scheme="http://blog.yangfch3.com/tags/%E6%B8%B8%E6%88%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>前端中的错误处理</title>
@@ -123,13 +147,13 @@
     
       <category term="Node" scheme="http://blog.yangfch3.com/tags/Node/"/>
     
+      <category term="翻译" scheme="http://blog.yangfch3.com/tags/%E7%BF%BB%E8%AF%91/"/>
+    
       <category term="异步" scheme="http://blog.yangfch3.com/tags/%E5%BC%82%E6%AD%A5/"/>
     
       <category term="底层原理" scheme="http://blog.yangfch3.com/tags/%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/"/>
     
       <category term="事件循环" scheme="http://blog.yangfch3.com/tags/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/"/>
-    
-      <category term="翻译" scheme="http://blog.yangfch3.com/tags/%E7%BF%BB%E8%AF%91/"/>
     
   </entry>
   
@@ -215,6 +239,28 @@
       <category term="pm2" scheme="http://blog.yangfch3.com/tags/pm2/"/>
     
       <category term="log4js" scheme="http://blog.yangfch3.com/tags/log4js/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>作品列表</title>
+    <link href="http://blog.yangfch3.com/2018/01/01/work-list/"/>
+    <id>http://blog.yangfch3.com/2018/01/01/work-list/</id>
+    <published>2017-12-31T16:00:01.000Z</published>
+    <updated>2019-03-02T16:06:45.510Z</updated>
+    
+    <content type="html"><![CDATA[<p>权当记录回顾。</p><a id="more"></a><h2 id="2019">2019</h2><p>《WSDMX》中重度养成类 H5 游戏 - 待发布</p><h2 id="2018">2018</h2><p><a href="http://web.4399.com/h5plat/#/home" target="_blank" rel="noopener">4399 H5 游戏中心</a></p><img src="/2018/01/01/work-list/zjyx.png" title="《组局游戏》-双人对战游戏平台"><img src="/2018/01/01/work-list/tty.jpg" title="《来追我鸭》-双人对战微信小游戏"><img src="/2018/01/01/work-list/ctg.jpg" title="《插糖果》微信小游戏"><img src="/2018/01/01/work-list/pyqcw.jpg" title="《漂移抢车位》微信小游戏"><h2 id="2015-2017">2015-2017</h2><p><a href="https://web.archive.org/web/20180206061243/http://ce.sysu.edu.cn/" target="_blank" rel="noopener">中山大学化学学院官网</a></p><hr>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;权当记录回顾。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="其他" scheme="http://blog.yangfch3.com/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+      <category term="其他" scheme="http://blog.yangfch3.com/tags/%E5%85%B6%E4%BB%96/"/>
     
   </entry>
   

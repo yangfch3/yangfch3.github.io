@@ -3,6 +3,29 @@
   
     
     <entry>
+      <title>H5 2D 游戏开发系列文章计划</title>
+      <link href="/2019/03/03/h5-2d-article-plan/"/>
+      <url>/2019/03/03/h5-2d-article-plan/</url>
+      <content type="html"><![CDATA[<p>做了半年多的 H5 2D 游戏，计划将期间的收获以系列的文章记录下来，文章的写作顺序将会按照下面的提纲进行。</p><a id="more"></a><ul><li>UI 管理</li><li>场景管理</li><li>资源管理解决方案</li><li>游戏前端架构思路</li><li>MVC</li><li>动画</li><li>碰撞</li><li>2D 摄像头</li><li>指引</li><li>红点</li><li>Protocol Buffer</li><li>MMORPG 系列<ul><li>2.5D</li><li>Tiled Map 与地图</li><li>寻路</li><li>AOI</li><li>场景管理</li><li>AI</li></ul></li><li>Egret 引擎相关</li><li>LayaAir 引擎相关</li></ul>]]></content>
+      
+      <categories>
+          
+          <category> 游戏 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> HTML5 </tag>
+            
+            <tag> 游戏 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>前端中的错误处理</title>
       <link href="/2018/11/30/err-handling-in-browser/"/>
       <url>/2018/11/30/err-handling-in-browser/</url>
@@ -100,13 +123,13 @@
             
             <tag> Node </tag>
             
+            <tag> 翻译 </tag>
+            
             <tag> 异步 </tag>
             
             <tag> 底层原理 </tag>
             
             <tag> 事件循环 </tag>
-            
-            <tag> 翻译 </tag>
             
         </tags>
       
@@ -180,6 +203,27 @@
             <tag> pm2 </tag>
             
             <tag> log4js </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>作品列表</title>
+      <link href="/2018/01/01/work-list/"/>
+      <url>/2018/01/01/work-list/</url>
+      <content type="html"><![CDATA[<p>权当记录回顾。</p><a id="more"></a><h2 id="2019">2019</h2><p>《WSDMX》中重度养成类 H5 游戏 - 待发布</p><h2 id="2018">2018</h2><p><a href="http://web.4399.com/h5plat/#/home" target="_blank" rel="noopener">4399 H5 游戏中心</a></p><img src="/2018/01/01/work-list/zjyx.png" title="《组局游戏》-双人对战游戏平台"><img src="/2018/01/01/work-list/tty.jpg" title="《来追我鸭》-双人对战微信小游戏"><img src="/2018/01/01/work-list/ctg.jpg" title="《插糖果》微信小游戏"><img src="/2018/01/01/work-list/pyqcw.jpg" title="《漂移抢车位》微信小游戏"><h2 id="2015-2017">2015-2017</h2><p><a href="https://web.archive.org/web/20180206061243/http://ce.sysu.edu.cn/" target="_blank" rel="noopener">中山大学化学学院官网</a></p><hr>]]></content>
+      
+      <categories>
+          
+          <category> 其他 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 其他 </tag>
             
         </tags>
       
